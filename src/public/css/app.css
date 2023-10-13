@@ -1,0 +1,7 @@
+.header-container,
+.footer-container {
+  display: flex; }
+
+.desciption-section {
+  margin-left: 20px;
+  margin-right: 50%; }
