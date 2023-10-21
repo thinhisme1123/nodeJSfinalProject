@@ -1,1 +1,0 @@
-const testCommit = 'Helo world'

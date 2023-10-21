@@ -1,0 +1,38 @@
+<!-- login.hbs -->
+<div class="login-container">
+    <div class="form-login-container">
+        <div class="form-login-header">
+            <h3>HPT</h3>
+            <p>TECHNOLOGY</p>
+            <h2>LOGIN</h2>  
+        </div>
+        <div class="form-seciton">
+            <form class="form-seciton-container" action="/login" method="POST">
+                <div class="form-seciton_input">
+                    <input class="formlogin-inputvalue" type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-seciton_input mt-3">
+                    <input class="formlogin-inputvalue" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="form-seciton_btn mt-3">
+                    <button class="login-btn" type="submit">Login</button>
+                </div>
+                {{#if message}}
+                <div class="alert alert-danger" role="alert">
+                    {{message}}
+                </div>
+                {{/if}}
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.style.backgroundImage = 'linear-gradient(to top right, #e40911, #261192, #06d0e6)';
+        document.body.style.fontFamily = 'Montserrat, sans-serif';
+    });
+
+</script>
