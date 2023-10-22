@@ -10,22 +10,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/fontawesome-free-6.4.2-web/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+
 </head>
 
 <body>
-    <div class="container">
-    {{#if userLogin}}
-        <div class="header">
-            {{> header}}
-        </div>
-        {{{body}}}
-        <div class="footer">
-            {{> footer}}
-        </div>
-    {{else}}
-        {{{body}}}
-    {{/if}}
-</div>
+    <div class="">
+        {{#if userLogin}}
+            
+            <div class="header">
+                {{> header}}
+            </div>
+            <div class="nav">
+                {{> nav}}
+            </div>
+            {{{body}}}
+            {{!-- <div class="footer">
+                {{> footer}}
+            </div> --}}
+        {{else}}
+
+            {{{body}}}
+        {{/if}}
+    </div>
 
 
 

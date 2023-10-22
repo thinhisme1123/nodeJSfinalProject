@@ -37,7 +37,7 @@
   text-align: center;
   font-size: 12px; }
 
-.form-seciton_btn {
+.form-seciton_btn, .alert-message {
   margin: 0 50px; }
 
 .login-btn {
@@ -46,3 +46,8 @@
   color: white;
   background-color: #000aff;
   border-radius: 20px; }
+
+.alert-message {
+  border-radius: 10px;
+  background-color: red;
+  color: white; }

@@ -1,12 +1,9 @@
 
 // Đối với phiên bản hiện tại của handlebar thì sẽ không cần viết tool chuyển sang object nữa, 
 // cứ truyền thẳng vào
+const Account = require('../models/Account')
 
-const { render } = require("node-sass")
-
-// const {mutipleMongoosesObject} = require('../../util/mongoose')
-const users = []
-var userLogin = false
+var userLogin = true
 //chứa function handler
 class SiteControllers {
 
@@ -20,20 +17,25 @@ class SiteControllers {
         }
 
     }
+    
 
-    login(req, res) {
+    login(req, res, next) {
         const { username, password } = req.body
         console.log(username, password)
         
-        if (username === 'admin@gmail.com' && password === '123') {
-            users.push(username)
-            users.push(password)
-            res.redirect('/')
-            userLogin = true
-        }
-        else {
-            res.render('login', { message: "Email or password invalid" })
-        }
+        Account.findOne({ username: username, password: password })
+            .then(user => {
+                console.log(user)
+                if (user) {
+                  res.redirect('/');
+                  userLogin = true;
+                } else {
+                    res.render('login', {message: "Username or passowrd incorrect !"});
+                }
+            })
+            .catch(next => {
+                console.error(next);
+            })
     }
 }
 

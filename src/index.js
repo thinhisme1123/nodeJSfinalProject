@@ -1,6 +1,8 @@
 // file index tổng của app
 const path = require('path');
 const express = require('express');
+const session = require('express-session');
+const flash = require('express-flash');
 const morgan = require('morgan');
 const Handlebars = require('handlebars');
 const handlebars = require('express-handlebars').engine;
@@ -16,7 +18,7 @@ const db = require('./config/db');
 db.connect()
 
 app.use(express.static(path.join(__dirname, 'public')));
-
+// override lại phương thức 
 app.use(methodOverride('_method'))
 
 app.use(
@@ -25,6 +27,15 @@ app.use(
     }),
 );
 app.use(express.json());
+// Configure session
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+  }));
+  
+  // Configure flash messages
+app.use(flash());
 
 // http logger
 app.get(morgan('combined'));

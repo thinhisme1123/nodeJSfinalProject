@@ -4,7 +4,7 @@
         <div class="form-login-header">
             <h3>HPT</h3>
             <p>TECHNOLOGY</p>
-            <h2>LOGIN</h2>  
+            <h2>LOGIN</h2>
         </div>
         <div class="form-seciton">
             <form class="form-seciton-container" action="/login" method="POST">
@@ -18,10 +18,11 @@
                     <button class="login-btn" type="submit">Login</button>
                 </div>
                 {{#if message}}
-                <div class="alert alert-danger" role="alert">
-                    {{message}}
-                </div>
+                    <div class="alert alert-danger alert-message mt-3">
+                        {{message}}
+                    </div>
                 {{/if}}
+
             </form>
         </div>
 
@@ -30,7 +31,7 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         document.body.style.backgroundImage = 'linear-gradient(to top right, #e40911, #261192, #06d0e6)';
         document.body.style.fontFamily = 'Montserrat, sans-serif';
     });
