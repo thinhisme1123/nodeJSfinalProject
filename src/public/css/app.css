@@ -1,3 +1,6 @@
+:root {
+  --text-color: #97a2d2; }
+
 .header {
   width: 100%; }
 
@@ -6,7 +9,7 @@
   background-color: #141432;
   width: 100%;
   position: relative;
-  border-bottom: #434548; }
+  border-bottom: 1px solid #434548; }
 
 .header-search {
   border-radius: 20px;
@@ -19,7 +22,7 @@
   top: 15px; }
 
 .header-search i {
-  color: white; }
+  color: #8ea0af; }
 
 .header-search_icon {
   top: 2px;
@@ -120,7 +123,8 @@
   max-height: 100vh;
   /* Set a maximum height */
   overflow-y: auto;
-  transition: width 0.3s ease; }
+  transition: width 0.3s ease;
+  z-index: 1; }
 
 .navigation {
   margin-left: 20px; }
@@ -129,6 +133,11 @@
   width: 100%;
   height: 55px;
   border-bottom: 1px solid #434548; }
+
+.nav-icon_img {
+  height: 50px;
+  width: 50px;
+  margin-left: -10px; }
 
 .nav-item-container {
   margin-top: 15px;
@@ -158,7 +167,15 @@
   display: flex;
   padding-right: -20px;
   border-radius: 5px;
-  margin-bottom: 8px; }
+  margin-bottom: 5px;
+  padding: 3px 0;
+  cursor: pointer; }
+
+.nav-item.active {
+  background-color: #261e33; }
+
+.nav-item_link i.active {
+  color: #fe9f43; }
 
 .nav-item_link {
   color: #8ea0af;

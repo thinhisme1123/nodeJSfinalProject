@@ -1,19 +1,53 @@
 <div class="navigation-container">
     <div class="navigation">
         <div class="nav-icon">
-            <h3>HPT ICON</h3>
+            <img class="nav-icon_img" src="/img/logoHPT.jpg" alt="">
+            <span class="nav-item-header">HPT POS</span>
         </div>
         <div class="nav-item-container">
-            <h4>Main</h4>
+            <h4 class="nav-item-header">Main</h4>
             <div class="nav-item">
-                <a class="nav-item_link" href="">
+                <a class="nav-item_link" href="/">
                     <i class="fa-solid fa-house"></i>
                     <h3>Dashboard</h3>
                 </a>
             </div>
         </div>
         <div class="nav-item-container">
-            <h4>Products</h4>
+            <h4 class="nav-item-header">Products</h4>
+            <div class="nav-item">
+                <a class="nav-item_link" href="/product">
+                    <i class="fa-solid fa-box"></i>
+                    <h3>Products</h3>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-item_link" href="">
+                    <i class="fa-solid fa-plus"></i>
+                    <h3>Create Products</h3>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-item_link" href="">
+                    <i class="fa-solid fa-box"></i>
+                    <h3>Category</h3>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-item_link" href="">
+                    <i class="fa-solid fa-box"></i>
+                    <h3>Brand</h3>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-item_link" href="">
+                    <i class="fa-solid fa-box"></i>
+                    <h3>Products</h3>
+                </a>
+            </div>
+        </div>
+        <div class="nav-item-container">
+            <h4 class="nav-item-header">Products</h4>
             <div class="nav-item">
                 <a class="nav-item_link" href="">
                     <i class="fa-solid fa-box"></i>
@@ -46,7 +80,7 @@
             </div>
         </div>
         <div class="nav-item-container">
-            <h4>Products</h4>
+            <h4 class="nav-item-header">Products</h4>
             <div class="nav-item">
                 <a class="nav-item_link" href="">
                     <i class="fa-solid fa-box"></i>
@@ -79,40 +113,7 @@
             </div>
         </div>
         <div class="nav-item-container">
-            <h4>Products</h4>
-            <div class="nav-item">
-                <a class="nav-item_link" href="">
-                    <i class="fa-solid fa-box"></i>
-                    <h3>Products</h3>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a class="nav-item_link" href="">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Create Products</h3>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a class="nav-item_link" href="">
-                    <i class="fa-solid fa-box"></i>
-                    <h3>Category</h3>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a class="nav-item_link" href="">
-                    <i class="fa-solid fa-box"></i>
-                    <h3>Brand</h3>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a class="nav-item_link" href="">
-                    <i class="fa-solid fa-box"></i>
-                    <h3>Products</h3>
-                </a>
-            </div>
-        </div>
-        <div class="nav-item-container">
-            <h4>Products</h4>
+            <h4 class="nav-item-header">Products</h4>
             <div class="nav-item">
                 <a class="nav-item_link" href="">
                     <i class="fa-solid fa-box"></i>
@@ -153,6 +154,7 @@
             // Handle open the navigation
             $('.navigation-container').css('width', '260px');
             $('.nav-item_link').addClass('open');
+            $('.nav-item-header').attr('hidden', false)
         });
 
 
@@ -160,6 +162,26 @@
             // Handle close navigation
             $('.navigation-container').css('width', '75px');
             $('.nav-item_link').removeClass('open'); 
+            $('.nav-item-header').attr('hidden', true)
+            $(".nav-item").removeClass("active");
+        });
+
+        $(".nav-item").click(function() {
+            // Remove 'open' class from all nav-items
+             $(".nav-item, .nav-item i").removeClass("active");
+    
+            // Add 'active' class to the clicked nav-item and its icon
+            $(this).addClass("active");
+            $(this).find("i").addClass('active');
+        });
+        $(".nav-item_link").click(function(event) {
+            event.preventDefault(); // Prevents the default behavior of the link
+
+            // Get the target URL from the href attribute
+            var targetUrl = $(this).attr('href');
+
+            // Navigate to the target URL
+            window.location.href = targetUrl;
         });
     });
 </script>

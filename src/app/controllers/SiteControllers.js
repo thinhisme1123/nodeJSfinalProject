@@ -2,15 +2,17 @@
 // Đối với phiên bản hiện tại của handlebar thì sẽ không cần viết tool chuyển sang object nữa, 
 // cứ truyền thẳng vào
 const Account = require('../models/Account')
+const session = require('express-session')
 
-var userLogin = true
+
+var userLogin = false
 //chứa function handler
 class SiteControllers {
 
     // [GET] /
     index(req, res) {
-        if(userLogin) {
-            res.render('home', {title: "Home Page", userLogin})
+        if(req.session.user) {
+            res.render('dashboard', {title: "Home Page", userLogin})
         }
         else { 
             res.render('login', {title: "Login Page"})
@@ -27,6 +29,7 @@ class SiteControllers {
             .then(user => {
                 console.log(user)
                 if (user) {
+                    req.session.user = user
                   res.redirect('/');
                   userLogin = true;
                 } else {
