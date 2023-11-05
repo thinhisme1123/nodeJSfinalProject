@@ -105,6 +105,9 @@
 // footer section
 .footer {
     width: 100%;
+    position: absolute;
+    border-top: 1px solid #434548;
+    
 }
 .footer-container {
     height: 60px;
@@ -125,7 +128,7 @@
     
 }
 .navigation-container {
-    position: absolute;
+    position: fixed;
     top: 5px;
     background-color: #141432;
     width: 75px;

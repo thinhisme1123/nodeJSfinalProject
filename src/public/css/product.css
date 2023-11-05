@@ -1,6 +1,8 @@
 .body-container {
   background-color: #141432;
-  width: 100%; }
+  width: 100%;
+  height: 100%;
+  padding-bottom: 50px; }
 
 .grid-container {
   width: 1300px;
@@ -42,9 +44,10 @@
 .product-list-container {
   background-color: #1d1d42;
   width: 100%;
-  height: 500px;
+  height: 580px;
   border-radius: 5px;
-  border: 1px solid #353570; }
+  border: 1px solid #353570;
+  margin-bottom: 50px; }
 
 .product-container {
   width: 1250px;
@@ -177,7 +180,101 @@
   margin-right: 5px;
   cursor: pointer; }
 
+.product-list-item_info:last-child {
+  display: flex;
+  justify-content: space-evenly; }
+
 .product-list-item_info h6 {
   margin-left: 10px;
   margin-top: 5px;
   font-size: 14px; }
+
+.create-product-row {
+  margin-top: 20px; }
+
+.create-product-item h6 {
+  font-weight: 400;
+  color: #86a2d2;
+  margin-bottom: 10px; }
+
+.create-product-item input {
+  width: 200px;
+  height: 30px;
+  background-color: transparent;
+  border: 1px solid #434764;
+  color: var(--text-color);
+  border-radius: 5px; }
+
+.create-product-item select {
+  width: 200px;
+  height: 30px;
+  background-color: transparent;
+  border: 1px solid #434764;
+  color: var(--text-color);
+  border-radius: 5px; }
+
+#create-by option,
+#create-brand option,
+#create-category option {
+  color: var(--text-color);
+  background-color: #1d1d42; }
+
+#create-category option:hover {
+  color: white;
+  background-color: #fe9f43; }
+
+.create-product-item textarea,
+.create-product-item input:focus {
+  outline: 1px solid #fe9f43; }
+
+.create-product-item textarea {
+  background-color: transparent;
+  border: 1px solid #434764;
+  color: #97a2d2;
+  border-radius: 5px;
+  width: calc(100% - 50px); }
+
+.file-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  width: calc(100% - 50px);
+  color: var(--text-color); }
+
+.file-label i {
+  font-size: 50px;
+  margin-bottom: 10px; }
+
+#file-input {
+  display: none; }
+
+.create-submit-btn {
+  color: white;
+  background-color: #fe9f43;
+  padding: 10px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 20px; }
+
+.create-submit-btn:hover {
+  color: white;
+  transition: .5s ease;
+  opacity: .8; }
+
+.create-cancel-btn {
+  color: white;
+  background-color: #424b52;
+  padding: 10px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 20px; }
+
+.create-cancel-btn:hover {
+  text-decoration: none;
+  background-color: #1b2850;
+  color: white;
+  transition: .5s ease; }

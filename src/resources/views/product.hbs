@@ -33,7 +33,7 @@
                 <div class="product-list-section-container">
                     <div class="product-list-header">
                         <div class="product-list-checkbox">
-                            <input class="product-checkbox-input" type="checkbox" name="products">
+                            <input class="product-checkbox-input" type="checkbox" name="all-products">
                         </div>
                         <div class="product-list-title">
                             <i class="fa-solid fa-sort"></i>
@@ -88,7 +88,9 @@
                             <h6>Computer</h6>
                         </div>
                         <div class="product-list-item_info">
-                            <h6>Computer</h6>
+                            <i class="fa-regular fa-eye"></i>
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <i class="fa-solid fa-trash"></i>
                         </div>
                     </div>
                     <div class="product-list-item">
@@ -115,7 +117,8 @@
                             <h6>Computer</h6>
                         </div>
                         <div class="product-list-item_info">
-                            <h6>Computer</h6>
+                            <i class="fa-regular fa-eye"></i>
+
                         </div>
                     </div>
                     <div class="product-list-item">
@@ -151,3 +154,18 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('input[name="all-products"]').change(function() {
+            $('input[name="products"]').prop('checked', this.checked);
+        });
+
+        $('input[name="products"]').change(function() {
+            if (!$('input[name="products"]').not(':checked').length) {
+                $('input[name="all-products"]').prop('checked', true);
+            } else {
+                $('input[name="all-products"]').prop('checked', false);
+            }
+        });
+    });
+</script>

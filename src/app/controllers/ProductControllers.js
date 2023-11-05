@@ -11,7 +11,11 @@ class ProductControllers {
     // [GET] /product
     index(req, res) {
         const isActive = true;
-        res.render('product', {userLogin, title: "Product Page", isActive})
+        res.render('product', {userLogin, title: "Product Page"})
+    }
+    // [GET] /create product
+    createProduct(req,res) {
+        res.render('create-product',{userLogin, title: "Create Product Page"})
     }
 }
 

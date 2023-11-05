@@ -29,10 +29,11 @@ app.use(
 app.use(express.json());
 // Configure session
 app.use(session({
-    secret: 'your-secret-key',
+    secret: 'thinhisme',
     resave: false,
     saveUninitialized: true,
-  }));
+    cookie: { secure: false }
+}))
   
   // Configure flash messages
 app.use(flash());
