@@ -47,7 +47,11 @@ app.engine(
     handlebars({
         extname: 'hbs',
         helpers: {
-            
+            getUsername(username) {
+                global.username = username;
+                console.log(username)
+                return ''; 
+            }
         }
     }),
 );

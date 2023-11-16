@@ -12,7 +12,9 @@ class SiteControllers {
     // [GET] /
     index(req, res) {
         if(req.session.user) {
-            res.render('dashboard', {title: "Home Page", userLogin})
+            res.render('dashboard', {title: "Home Page", userLogin, username: req.session.user.username,
+                role:req.session.user.role
+            })
         }
         else { 
             res.render('login', {title: "Login Page"})

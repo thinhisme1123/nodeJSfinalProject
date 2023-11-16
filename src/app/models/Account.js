@@ -1,17 +1,14 @@
 const mongoose = require('mongoose');
 const mongooseDelete = require('mongoose-delete');
-const slug = require('mongoose-slug-updater');
 const Schema = mongoose.Schema;
-const AutoIncrement = require('mongoose-sequence')(mongoose);
+//nếu muốn thêm _id tự động từ mongo tạo cho thì không cần phải khai báo _id
 
-const Account = new Schema({
-    _id: { type: Schema.Types.ObjectId },
-    username: { type: String, require:true},
-    password: { type: String},
-    role: {type:String}
-}, {
-    _id: false,
+const AccountSchema = new Schema({
+    username: { type: String, required: true },
+    password: { type: String, default: '' },
+    role: { type: String },
 });
 
-// tham số cuối cùng là tên của collection trong db 
-module.exports = mongoose.model('Model', Account, 'account')
+AccountSchema.plugin(mongooseDelete, { overrideMethods: true });
+
+module.exports = mongoose.model('Account', AccountSchema, 'account');

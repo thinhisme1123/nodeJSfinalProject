@@ -5,9 +5,33 @@ const Account = require('../models/Account')
 const Product = require('../models/Product')
 const session = require('express-session')
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt')
+const saltRounds = 10
+const jwt = require('jsonwebtoken');
+const flash = require('express-flash');
+const {check, validationResult } = require('express-validator')
 var userLogin = true
 
+function getUsernameFromEmail(email) {
+    // Split the email address at the "@" symbol
+    const parts = email.split('@');
 
+    // The first part (index 0) will be the username
+    const username = parts[0];
+  
+    return username;
+}
+function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+  
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      result += characters.charAt(randomIndex);
+    }
+  
+    return result;
+  }
 //chứa function handler
 class StaffControllers {
 
@@ -22,38 +46,36 @@ class StaffControllers {
         res.render('create-staff',{userLogin, title: "Create Staff Page"})
     }
     // [POST] /create staff
-    createStaff(req,res) {
-        const {email} = req.body
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-              user: 'kieplulanh93@gmail.com',  // Replace with your Gmail email address
-              pass: 'deiq qbvp vjtv yatu'    // Replace with your Gmail password or an application-specific password
-            }
-          });
-        
-        const verificationLink = 'https://localhost:3000';
-        // Setup email data
-        const mailOptions = {
-            from: 'kieplulanh93@gmail.com',  // Sender email address
-            to: `${email}`,  // Recipient email address
-            subject: 'Account Verification',  // Email subject
-            html: `
-                    <p>Thank you for creating an account!</p>
-                    <p>Please click the button below to verify your account:</p>
-                    <a href="${verificationLink}" style="display:inline-block; padding:10px 20px; background-color:#3498db; color:#ffffff; text-decoration:none; border-radius:5px;">Verify Your Account</a>
-                    <p>If you didn't create an account, you can ignore this email.</p>
-                `
-          };
-        // Send email
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-            console.error('Error:', error);
-            } else {
-            console.log('Email sent:', info.response);
-            }
-        });
+    async createStaff(req, res) {
+        const { email, role } = req.body;
+        const username = getUsernameFromEmail(email);
+        const password = generateRandomString(8);
+    
+        console.log('Username:', username);
+    
+        const result = validationResult(req);
+    
+        if (result.errors.length !== 0) {
+            const message = result.errors[0].msg;
+            req.flash('error', message);
+            return res.send(message);
+        }
+    
+        try {
+            const us = new Account({
+                username: username,
+                password: password,
+                role: role
+            });
+            await us.save();
+            res.send("Create new staff success");
+        } catch (err) {
+            console.error('Error creating staff:', err);
+            req.flash('error', 'An error occurred while creating the staff.');
+            res.status(500).send('Internal Server Error');
+        }
     }
+    
 }
 
 module.exports = new StaffControllers();
