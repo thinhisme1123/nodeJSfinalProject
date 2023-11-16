@@ -8,6 +8,7 @@ const Account = new Schema({
     _id: { type: Schema.Types.ObjectId },
     username: { type: String, require:true},
     password: { type: String},
+    role: {type:String}
 }, {
     _id: false,
 });

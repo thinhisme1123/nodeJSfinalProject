@@ -40,6 +40,9 @@ class SiteControllers {
                 console.error(next);
             })
     }
+    resgister(req,res) {
+        
+    }
 }
 
 module.exports = new SiteControllers();

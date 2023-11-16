@@ -6,18 +6,15 @@ const Product = require('../models/Product')
 const session = require('express-session')
 var userLogin = true
 //chứa function handler
-class ProductControllers {
+class CustomerControllers {
 
-    // [GET] /product
+    // [GET] /customer
     index(req, res) {
         const isActive = true;
         console.log(req.session.user)
-        res.render('product', {userLogin, title: "Product Page"})
+        res.render('customer', {userLogin, title: "Customer Page"})
     }
-    // [GET] /create product
-    createProduct(req,res) {
-        res.render('create-product',{userLogin, title: "Create Product Page"})
-    }
+
 }
 
-module.exports = new ProductControllers();
+module.exports = new CustomerControllers();
