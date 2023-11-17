@@ -40,7 +40,6 @@ app.use(flash());
 
 // http logger
 app.get(morgan('combined'));
-
 // Template engine
 app.engine(
     'hbs',
@@ -60,12 +59,6 @@ app.set('views', path.join(__dirname, 'resources/views'));
 
 //routes
 route(app);
-
-
-
-
-
-
 //listen the port
 app.listen(port, () => {
     console.log(`Example app listening on port https://localhost:${port}`);

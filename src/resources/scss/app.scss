@@ -82,6 +82,7 @@
 .profile-btn {
     margin-left: 10px;
     margin-top: 5px;
+    position: relative;
 }
 .profile-btn h2{
     color: #97a2d2;
@@ -90,6 +91,57 @@
 .profile-btn h5{
     color: #545e79;
     font-size: 13px;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0.1;
+        transform: translateY(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-subnav.open{
+    position: absolute;
+    width: 80px;
+    display: block;
+    animation: fadeIn .5s ease;
+}
+.profile-subnav {
+    display: none;
+}
+
+
+.profile-header {
+    width: 100%;
+    border-bottom: 2px solid #353570;
+}
+.profile-body{
+    width: 100%;
+    border-bottom: 2px solid #353570;
+    padding-bottom: 10px;
+}
+.profile-body a {
+    display: flex;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 12px;
+    margin-top: 12px;
+}
+.profile-body a i{
+    margin-right: 10px;
+    margin-top: 3px;
+}
+.profile-body a:hover {
+    text-decoration: none;
+}
+.profile-body a:hover .profile-body{
+    background-color: #1d1d42;
+}
+.profile-body a:hover i{
+    color: #fe9f43;
 }
 .arrow-down-up {
     color: #97a2d2;

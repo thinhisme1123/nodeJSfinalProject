@@ -17,12 +17,16 @@ class SiteControllers {
             })
         }
         else { 
-            res.render('login', {title: "Login Page"})
+            res.redirect('/login')
         }
 
     }
+    // [GET] /login
+    showLogin(req,res) {
+        res.render("login",{title: "Login Page"})
+    }
     
-
+    // [POST] /login
     login(req, res, next) {
         const { username, password } = req.body
         console.log(username, password)
@@ -32,7 +36,7 @@ class SiteControllers {
                 console.log(user)
                 if (user) {
                     req.session.user = user
-                  res.redirect('/');
+                    res.redirect('/');
                   userLogin = true;
                 } else {
                     res.render('login', {message: "Username or passowrd incorrect !"});
@@ -42,8 +46,9 @@ class SiteControllers {
                 console.error(next);
             })
     }
-    resgister(req,res) {
-        
+    logout(req,res) {
+        req.session.destroy()
+        res.redirect('/')
     }
 }
 

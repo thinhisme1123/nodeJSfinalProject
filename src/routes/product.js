@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const getUsername = require('../app/middlewares/setGlobaleUsername')
 
 const productControllers = require('../app/controllers/ProductControllers');
 
-router.get('/', productControllers.index);
-router.get('/create-product', productControllers.createProduct);
+router.get('/',getUsername, productControllers.index);
+router.get('/create-product',getUsername, productControllers.createProduct);
 
 module.exports = router;

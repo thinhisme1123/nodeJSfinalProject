@@ -19,18 +19,52 @@
         </div>
         
         <div class="profile-btn">
-            <h2>{{username}}</h2>
-            <h5>{{role}}</h5>
-        </div>
-        <div class="profile-subnav">
-            
+            {{#if username}}
+                <h2>{{username}}</h2>
+                <h5>{{role}}</h5>
+            {{/if}}
+            <h2>{{globalData.username}}</h2>
+            <h5>{{globalData.role}}</h5>
+            <div class="profile-subnav">
+                <div class="profile-btn profile-header">
+                    {{#if username}}
+                        <h2>{{username}}</h2>
+                        <h5>{{role}}</h5>
+                    {{/if}}
+                    <h2>{{globalData.username}}</h2>
+                    <h5>{{globalData.role}}</h5>
+                </div>
+                <div class="profile-body">
+                    <a href="">
+                        <i class="fa-regular fa-user"></i>
+                        My Profle</a>
+                    <a href="">
+                        <i class="fa-solid fa-gear"></i>
+                        Setting</a>
+                </div>
+                <div class="profile-body">
+                    <a href="/logout">
+                        <i style="color: red;" class="fa-solid fa-right-from-bracket"></i>
+                        Logout</a>
+                </div>
+            </div>
         </div>
         <div class="arrow-down-up">
             <i class="fa-solid fa-chevron-down"></i>
         </div>
+        
     </div>
 
 </div>
 <script>
-    
+    const profileBtn = $('.profile-btn')
+    const arrowBtn = $('.arrow-down-up')
+    const profileSubnav = $('.profile-subnav')
+
+    profileBtn.click(() => {
+        profileSubnav.toggleClass('open')
+    })
+    arrowBtn.click(() => {
+        profileSubnav.toggleClass('open')
+    })
 </script>

@@ -2,32 +2,24 @@
     <div class="grid-container">
         <div class="header-product">
             <div class="header-product-left">
-                <h4>Staff Add</h4>
-                <p>Create new Staff</p>
+                <h4>Employees Add</h4>
+                <p>Create new Employees</p>
             </div>
         </div>
         <form action="/staff/create-staff" method="post">
         <div class="product-list-container">
             <div style="margin-left: 50px;" class="create-product-row row">
                 <div class="col create-product-item">
-                    <h6>First Name</h6>
-                    <input type="text" name="firstName">
-                </div>
-                <div class="col create-product-item">
-                    <h6>Last Name</h6>
-                    <input type="text"name="lastName">
+                    <h6>Fullname</h6>
+                    <input style="width: 300px;" type="text"name="fullName">
                 </div>
                 <div class="col create-product-item">
                     <h6>Email</h6>
-                    <input type="text"name="email">
+                    <input style="width: 300px;" type="text"name="email">
                 </div>
-                <div class="col create-product-item">
-                    <h6>Create by</h6>
-                    <select name="role" id="role">
-                        <option value="">Choose People</option>
-                        <option value="admin">Admin</option>
-                        <option value="staff">Staff</option>
-                    </select>
+                <div hidden class="col create-product-item">
+                    <h6>Role Staff</h6>
+                    <input value="staff" type="text" name="role">
                 </div>
             </div>
             <div style="margin-left: 50px;" class="create-product-row row">
@@ -40,7 +32,7 @@
                     <input type="file" id="file-input" >
                 </div>
             </div>
-            <div style="margin-left: 50px;" class="create-product-row row">
+            <div style="margin-left: 50px; text-align:center" class="create-product-row row">
                 <div class="col create-product-item">
                     <button class="create-submit-btn" type="submit">Submit</button>
                     <a class="create-cancel-btn" href="/product">Cancel</a>
