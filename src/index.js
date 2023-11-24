@@ -50,6 +50,12 @@ app.engine(
                 global.username = username;
                 console.log(username)
                 return ''; 
+            },
+            isAdmin(role) {
+                return role === 'admin';
+            },
+            isVerified(change) {
+                return change === 0;
             }
         }
     }),

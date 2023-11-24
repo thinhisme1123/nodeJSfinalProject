@@ -6,7 +6,10 @@ const Schema = mongoose.Schema;
 const AccountSchema = new Schema({
     username: { type: String, required: true },
     password: { type: String, default: '' },
+    email: { type: String },
     role: { type: String },
+    change: Number,
+    verified: Number
 });
 
 AccountSchema.plugin(mongooseDelete, { overrideMethods: true });

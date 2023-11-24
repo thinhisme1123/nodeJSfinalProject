@@ -108,9 +108,11 @@
     width: 80px;
     display: block;
     animation: fadeIn .5s ease;
+    z-index: 1;
 }
 .profile-subnav {
     display: none;
+    
 }
 
 

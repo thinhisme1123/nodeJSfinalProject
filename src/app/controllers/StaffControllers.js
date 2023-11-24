@@ -32,11 +32,11 @@ class StaffControllers {
     }
     // [GET] /show create staff 
     createStaffInterface(req,res) {
-        res.render('create-staff',{userLogin, title: "Create Staff Page"})
+        res.render('create-staff',{userLogin,showAlert:false ,title: "Create Staff Page"})
     }
     // [POST] /create staff
     async createStaff(req, res) {
-        const { email, role } = req.body;
+        const { email, role ,change, verified} = req.body;
         const username = getUsernameFromEmail(email);
     
         console.log('Username:', username);
@@ -48,55 +48,68 @@ class StaffControllers {
             req.flash('error', message);
             return res.send(message);
         }
-    
-        try {
-            const us = new Account({
-                username: username,
-                password: username,
-                role: role
-            });
-            await us.save();
-            // Generate a token with a 1-minute expiration time
-            const verificationToken = jwt.sign({ email, expiresIn: '1m' }, 'thinhisme123');
-
-            const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'kieplulanh93@gmail.com', // Replace with your Gmail email address
-                pass: 'deiq qbvp vjtv yatu', // Replace with your Gmail password or an application-specific password
-            },
-            });
-
-            const verificationLink = `https://localhost:3000/verify-account?token=${verificationToken}`;
-            // The link now includes the token as a query parameter
-
-            // Setup email data
-            const mailOptions = {
-            from: 'kieplulanh93@gmail.com', // Sender email address
-            to: email, // Recipient email address
-            subject: 'Account Verification', // Email subject
-            html: `
-                    <p>Thank you for creating an account!</p>
-                    <p>Please click the button below to verify your account:</p>
-                    <a href="${verificationLink}" style="display:inline-block; padding:10px 20px; background-color:#3498db; color:#ffffff; text-decoration:none; border-radius:5px;">Verify Your Account</a>
-                    <p>You temporary password is: <strong>${username}</strong></p>
-                    <p>If you didn't create an account, you can ignore this email.</p>
-                `,
-            };
-
-            // Send email
-            transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error('Error:', error);
-            } else {
-                console.log('Email sent:', info.response);
-            }
-            });
-        } catch (err) {
-            console.error('Error creating staff:', err);
-            req.flash('error', 'An error occurred while creating the staff.');
-            res.status(500).send('Internal Server Error');
-        }
+        Account.findOne({username:username})
+            .then(async data => {
+                if(data) {
+                    return res.render("create-staff",{userLogin,showAlert:true,code:0,message:"Username already existed!"})
+                }
+                else {
+                    try {
+                        const us = new Account({
+                            username: username,
+                            password: username,
+                            email: email,
+                            role: role,
+                            change:change,
+                            verified:verified
+                        });
+                        await us.save();
+                        // Generate a token with a 1-minute expiration time
+                        const verificationToken = jwt.sign({ email, expiresIn: '1m' }, 'thinhisme123');
+                        req.session.token = verificationToken
+                        const transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            user: 'kieplulanh93@gmail.com', // Replace with your Gmail email address
+                            pass: 'deiq qbvp vjtv yatu', // Replace with your Gmail password or an application-specific password
+                        },
+                        });
+            
+                        const verificationLink = `http://localhost:3000/verify-account?token=${verificationToken}`;
+                        // The link now includes the token as a query parameter
+                        
+            
+                        // Setup email data
+                        const mailOptions = {
+                        from: 'kieplulanh93@gmail.com', // Sender email address
+                        to: email, // Recipient email address
+                        subject: 'Account Verification', // Email subject
+                        html: `
+                                <p>Thank you for creating an account!</p>
+                                <p>Please click the button below to verify your account:</p>
+                                <a href="${verificationLink}" style="display:inline-block; padding:10px 20px; background-color:#3498db; color:#ffffff; text-decoration:none; border-radius:5px;">Verify Your Account</a>
+                                <p>Your username is: <strong>${username}</strong></p>
+                                <p>Your temporary password is: <strong>${username}</strong></p>
+                                <p>If you didn't create an account, you can ignore this email.</p>
+                            `,
+                        };
+            
+                        // Send email
+                        transporter.sendMail(mailOptions, (error, info) => {
+                        if (error) {
+                            console.error('Error:', error);
+                        } else {
+                            res.render("create-staff", {userLogin,showAlert:true,code:1, message:"Staff account created success"})
+                            console.log('Email sent:', info.response);
+                        }
+                        });
+                    } catch (err) {
+                        console.error('Error creating staff:', err);
+                        req.flash('error', 'An error occurred while creating the staff.');
+                        res.status(500).send('Internal Server Error');
+                    }
+                }
+            })
     }
     
 }

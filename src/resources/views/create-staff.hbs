@@ -21,6 +21,14 @@
                     <h6>Role Staff</h6>
                     <input value="staff" type="text" name="role">
                 </div>
+                <div hidden class="col create-product-item">
+                    <h6>Change Staff</h6>
+                    <input value="0" type="text" name="change">
+                </div>
+                <div hidden class="col create-product-item">
+                    <h6>Verified Staff</h6>
+                    <input value="0" type="text" name="verified">
+                </div>
             </div>
             <div style="margin-left: 50px;" class="create-product-row row">
                 <div class="col create-product-item">
@@ -30,9 +38,22 @@
                         Drag and drop a file to upload
                     </label>
                     <input type="file" id="file-input" >
+                    {{#if showAlert}}
+                        {{#if code}}
+                            <div class="alert alert-success mr-5 mt-3" role="alert" id="successAlert">
+                                {{message}}
+                            </div>
+                        {{else}}
+                            <div class="alert alert-danger mr-5 mt-3" role="alert" id="errorAlert">
+                                {{message}}
+                            </div>
+                        {{/if}}
+                    {{/if}}
                 </div>
             </div>
+            
             <div style="margin-left: 50px; text-align:center" class="create-product-row row">
+                
                 <div class="col create-product-item">
                     <button class="create-submit-btn" type="submit">Submit</button>
                     <a class="create-cancel-btn" href="/product">Cancel</a>
@@ -43,3 +64,20 @@
     </div>
     
 </div>
+<script>
+    const form = $('.create-submit-btn')
+    const fullNameValue = $('input[name="fullName"]');
+    const emailValue = $('input[name="email"]');
+
+    form.click(e => {
+        window.location.reload()
+    })
+    const checkDisplay = {{showAlert}}
+    console.log(checkDisplay)
+    if(checkDisplay) {
+        setTimeout(function() {
+            $('#errorAlert').css('display', 'none');
+            $('#successAlert').css('display', 'none');
+        }, 3000);
+    }
+</script>

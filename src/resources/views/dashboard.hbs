@@ -8,7 +8,7 @@
                 </div>
                 <div class="box-infor-item_number">
                     <h4>$30202</h4>
-                    <p>Total Purchase Due</p>
+                    <p>Total Purchase Due {{change}}</p>
                     <p id="username-container" hidden></p>
                 </div>
             </div>
@@ -18,8 +18,9 @@
                 </div>
                 <div class="box-infor-item_number">
                     <h4>$30202</h4>
-                    <p>Total Sale Amount</p>
+                    <p>Total Sale Amount </p>
                 </div>
+                
             </div>
             <div class="col box-infor-item">
                 <div class="box-infor-item_icon">
@@ -61,4 +62,46 @@
             </div>
         </div>
     </div>
+    <!-- Button trigger modal -->
+<button hidden type="button" class="btn btn-primary show-modal" data-toggle="modal" data-target="#exampleModalCenter">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+{{!-- Ngăn người dùng click vào vùng xung quanh của modal là thuộc tính data-backdrop="static" --}}
+<div class="modal fade" id="exampleModalCenter" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Change Your Password</h5>
+      </div>
+      <div class="modal-body">
+        Your password hasn't been changed yet, you must change your password !
+      </div>
+      <div class="modal-footer">
+        <a href="/change-password" type="button" class="btn btn-danger">Change Password</a>
+      </div>
+    </div>
+  </div>
 </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function(){
+      // Simulate a click on the button with id="saveChangesBtn"
+      // Get the 'change' variable from the server
+        var change = {{ change }};
+        console.log(change)
+
+        // Optional: Open the modal programmatically
+        if (change === 0) {
+            $('#exampleModalCenter').modal('show');
+        }
+        $('.overlay').click(e => {
+            e.preventDefault()
+        })
+    });
+   
+</script>
