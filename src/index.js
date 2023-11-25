@@ -51,6 +51,11 @@ app.engine(
                 console.log(username)
                 return ''; 
             },
+            getRole(role) {
+                global.role = role;
+                console.log(role)
+                return ''; 
+            },
             isAdmin(role) {
                 return role === 'admin';
             },

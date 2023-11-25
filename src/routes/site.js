@@ -10,6 +10,6 @@ router.get('/',siteControllers.index);
 router.get('/logout',siteControllers.logout);
 router.get('/profile',getUsername,siteControllers.showProfile);
 router.get('/change-password',siteControllers.showChangePW);
-router.post('/change-password',siteControllers.changePW);
+router.post('/changepassword',siteControllers.changePW);
 router.get('/verify-account',  siteControllers.verifyStaff);
 module.exports = router;

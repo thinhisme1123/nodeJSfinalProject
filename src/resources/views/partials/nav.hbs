@@ -56,12 +56,28 @@
                     <h3>Employees</h3>
                 </a>
             </div>
-            <div class="nav-item">
-                <a class="nav-item_link" href="/staff/create-staff">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Create Employees</h3>
-                </a>
-            </div>
+            {{#if globalData.role}}
+                {{#if (isAdmin globalData.role)}}
+                    <div class="nav-item">
+                        <a class="nav-item_link" href="/staff/create-staff">
+                            <i class="fa-solid fa-plus"></i>
+                            <h3>Create Employees</h3>
+                        </a>
+                    </div>
+                {{/if}}
+            {{/if}}
+            {{#if username}}
+                {{#if (isAdmin username)}}
+                    <div class="nav-item">
+                        <a class="nav-item_link" href="/staff/create-staff">
+                            <i class="fa-solid fa-plus"></i>
+                            <h3>Create Employees</h3>
+                        </a>
+                    </div>
+                {{/if}}
+            {{/if}}
+            
+            
         </div>
         {{!-- People section --}}
         <div class="nav-item-container">

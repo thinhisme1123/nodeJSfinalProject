@@ -32,7 +32,7 @@ class StaffControllers {
     }
     // [GET] /show create staff 
     createStaffInterface(req,res) {
-        res.render('create-staff',{userLogin,showAlert:false ,title: "Create Staff Page"})
+        res.render('create-staff',{userLogin,showAlert:false ,code:1,title: "Create Staff Page"})
     }
     // [POST] /create staff
     async createStaff(req, res) {
@@ -65,8 +65,13 @@ class StaffControllers {
                         });
                         await us.save();
                         // Generate a token with a 1-minute expiration time
-                        const verificationToken = jwt.sign({ email, expiresIn: '20s' }, 'thinhisme123');
+                        //expireIn phải để vị trí cuối cùng của jwt.sign
+                        const verificationToken = jwt.sign({ email }, 'thinhisme123', { expiresIn: '20s' });
                         req.session.token = verificationToken
+                        req.session.username = username
+                        console.log(req.session.username)
+                        console.log(req.session.token)
+        
                         const transporter = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
@@ -75,7 +80,7 @@ class StaffControllers {
                         },
                         });
             
-                        const verificationLink = `http://localhost:3000/verify-account?token=${verificationToken}`;
+                        const verificationLink = `http://localhost:3000/verify-account?token=${verificationToken}&username=${username}`;
                         // The link now includes the token as a query parameter
                         
             

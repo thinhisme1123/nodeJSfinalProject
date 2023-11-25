@@ -9,7 +9,7 @@ var userLogin = false
 //chứa function handler
 class SiteControllers {
 
-    // [GET] /
+    // [GET] /home dashboard
     index(req, res) {
         if(req.session.user) {
             res.render('dashboard', {title: "Home Page", userLogin, 
@@ -60,33 +60,54 @@ class SiteControllers {
     // [GET] /changepassword
     showChangePW(req,res) {
         var blocked = true
-        res.render('changePassword', {title: 'Change Password',username:req.session.user.username})
+        res.render('changePassword', {title: 'Change Password',showAlert:false,code:1,username:req.session.user.username})
     }
-    changePW(req,res) {
-        res.send('hello')
+    // [POST] /changepassword
+    async changePW(req,res) {
+        const {username,password, comfirmPassword} = req.body
+        console.log(password.length)
+        if(password.length < 6) {
+            return res.render('changePassword', {title: 'Change Password',showAlert:true,code:0,message: 'The password must has at least 6 characters!'})
+        }
+        if(password === comfirmPassword) {
+
+            const result = await Account.updateOne(
+                { username: username }, // Replace with the actual username
+                { $set: { password: comfirmPassword,
+                          change: 1
+                } }
+            );
+            res.redirect('/login')
+            
+        } else {
+            res.render('changePassword', {title: 'Change Password',showAlert:true,code:0,message: 'The comfirm password is not the same with the password'})
+        }
     }
     // [GET] /verify-account
     verifyStaff(req,res) {
         //set the account verify to 1
         const token = req.query.token
+        const username = req.query.username
         console.log(token)
-        console.log(req.session.token)
-        jwt.verify(token, 'thinhisme123', (err, decoded) => {
+        console.log(username)
+        
+        jwt.verify(token,'thinhisme123',async (err, decoded) => {
             if (err) {
                 // Token is invalid or has expired
-                res.send("Link is not available. Please contract to your admin!")
-                console.error('Error verifying token:', err);
+                return res.send("Link is not available. Please contract to your admin!")
                 // Handle the error, e.g., render an error page or show a message to the user
             } else {
+                const result = await Account.updateOne(
+                    { username: username }, // Replace with the actual username
+                    { $set: { verified: 1 } }
+                );
                 // Token is valid
-                return res.redirect("/login")
-                
-                // Mark the user account as verified in your database
+                return res.redirect("/login")              
+                // Mark the user account as verified in yo ur database
                 // Redirect the user to a success page or show a message indicating successful verification
             }
         });
-
-        res.send("Verified")
+        
     }
 }
 
