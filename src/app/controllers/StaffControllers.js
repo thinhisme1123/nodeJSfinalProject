@@ -65,7 +65,7 @@ class StaffControllers {
                         });
                         await us.save();
                         // Generate a token with a 1-minute expiration time
-                        const verificationToken = jwt.sign({ email, expiresIn: '1m' }, 'thinhisme123');
+                        const verificationToken = jwt.sign({ email, expiresIn: '20s' }, 'thinhisme123');
                         req.session.token = verificationToken
                         const transporter = nodemailer.createTransport({
                         service: 'gmail',

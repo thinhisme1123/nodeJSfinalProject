@@ -71,9 +71,10 @@ class SiteControllers {
         const token = req.query.token
         console.log(token)
         console.log(req.session.token)
-        jwt.verify(req.session.token, token, (err, decoded) => {
+        jwt.verify(token, 'thinhisme123', (err, decoded) => {
             if (err) {
                 // Token is invalid or has expired
+                res.send("Link is not available. Please contract to your admin!")
                 console.error('Error verifying token:', err);
                 // Handle the error, e.g., render an error page or show a message to the user
             } else {
