@@ -6,7 +6,7 @@
                 <p>Create new product</p>
             </div>
         </div>
-        <form action="/product/create-product" method="post">
+        <form action="/product/create-product" method="post" enctype="multipart/form-data">
         <div class="product-list-container">
             <div style="margin-left: 50px;" class="create-product-row row">
                 <div class="col create-product-item">
@@ -64,7 +64,8 @@
                         <i class="fas fa-cloud-upload-alt"></i>
                         Drag and drop a file to upload
                     </label>
-                    <input type="file" id="file-input" name="image">
+                    <input type="file" class="custom-file-input" id="file-input" name="image">
+                    <img id="preview-image" style="max-width: 30%; max-height:100%; margin-top: 10px; display: none;">
                 </div>
             </div>
             <div style="margin-left: 50px;" class="create-product-row row">
@@ -79,3 +80,29 @@
     
 </div>
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+ <script>
+      //Name of the file appear on select
+      $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this)
+          .siblings(".file-label")
+          .addClass("selected")
+          .html(fileName);
+
+        // Display the image preview
+        const fileInput = this;
+        const file = fileInput.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const previewImage = $("#preview-image");
+                previewImage.attr("src", e.target.result);
+                previewImage.show();
+            };
+
+            reader.readAsDataURL(file);
+        }
+      });
+</script>

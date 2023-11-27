@@ -42,6 +42,7 @@ class ProductControllers {
     createProduct(req,res) {
         const { productName, category, brand, price, description, quantity, createdBy, image } = req.body;
         console.log(productName)
+        const imageUrl = req.file ? `/uploads/products/${req.file.filename}` : null;
 
         const newProduct = new Product({
             productName,
@@ -51,13 +52,15 @@ class ProductControllers {
             description,
             quantity,
             createdBy,
-            image,
+            image: imageUrl,
         });
 
         // Save the new product to the database
         newProduct.save()
             .then((savedProduct) => {
-                showSuccessToast('Product created successfully');
+                // showSuccessToast('Product created successfully');
+                console.log("Upload success")
+                res.redirect("/product")
             })
             .catch((error) => {
                 // Handle the error, send an error response to the client
