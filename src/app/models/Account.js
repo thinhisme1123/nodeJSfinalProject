@@ -8,6 +8,7 @@ const AccountSchema = new Schema({
     password: { type: String, default: '' },
     email: { type: String },
     role: { type: String },
+    image: { type: String },
     change: Number,
     verified: Number
 });

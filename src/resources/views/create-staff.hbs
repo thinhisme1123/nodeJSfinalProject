@@ -6,7 +6,7 @@
                 <p>Create new Employees</p>
             </div>
         </div>
-        <form action="/staff/create-staff" method="post">
+        <form action="/staff/create-staff" method="post" enctype="multipart/form-data">
         <div class="product-list-container">
             <div style="margin-left: 50px;" class="create-product-row row">
                 <div class="col create-product-item">
@@ -37,7 +37,8 @@
                         <i class="fas fa-cloud-upload-alt"></i>
                         Drag and drop a file to upload
                     </label>
-                    <input type="file" id="file-input" >
+                    <input type="file" id="file-input" class="custom-file-input" name="image">
+                    <img id="preview-image" style="max-width: 30%; max-height:100%; margin-top: 10px; display: none;">
                     {{#if showAlert}}
                         {{#if code}}
                             <div class="alert alert-success mr-5 mt-3" role="alert" id="successAlert">
@@ -80,4 +81,29 @@
             $('#successAlert').css('display', 'none');
         }, 6000);
     }
+
+    //Name of the file appear on select
+      $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this)
+          .siblings(".file-label")
+          .addClass("selected")
+          .html(fileName);
+
+        // Display the image preview
+        const fileInput = this;
+        const file = fileInput.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const previewImage = $("#preview-image");
+                previewImage.attr("src", e.target.result);
+                previewImage.show();
+            };
+
+            reader.readAsDataURL(file);
+        }
+      });
 </script>

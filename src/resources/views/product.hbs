@@ -124,8 +124,8 @@
                                 <td class="product-action">
                                     <a class="product-list-item_info_link" href="/product"><i class="fa-regular fa-eye"></i></a>
                                     {{#if (isAdmin ../globalData.role)}}
-                                            <a class="product-list-item_info_link ml-2" href="/product/edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                                            <a class="product-list-item_info_link ml-2" href="/product/delete"><i class="fa-solid fa-trash"></i></a>
+                                            <a class="product-list-item_info_link ml-2" href="/product/edit/{{_id}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a data-productname="{{productName}}" data-id="{{_id}}" class="delete-product-link product-list-item_info_link ml-2" href="/product/delete/{{_id}}"><i class="fa-solid fa-trash"></i></a>
                                     {{/if}}
                                 </td>
                             </tr>
@@ -134,6 +134,28 @@
                 </table>
             </div>
             
+        </div>
+    </div>
+
+
+   {{!-- Delete modal --}}
+   <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete product <strong id="productNameInModal"></strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -150,6 +172,33 @@
                 $('input[name="all-products"]').prop('checked', false);
             }
         });
+
+          $(".delete-product-link").on("click", function (e) {
+            e.preventDefault()
+            var productName = $(this).data("productname");
+             var productID = $(this).data("id");
+             console.log(productID)
+            $("#productNameInModal").text(productName);
+            $("#confirmModal").modal("show");
+
+            $("#confirmDelete").on("click", function () {
+                $.ajax({
+                    url: `/product/delete/${productID}`,
+                    method: "DELETE",
+                    dataType: "json", 
+                    success: function (data) {            
+                        console.log(data)
+                        window.location.reload()
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", status, error);
+                    }
+                });
+                $("#confirmModal").modal("hide");
+            });
+        });
+
+       
     });
 </script>
 {{!-- cần phải ../ khi truy cập một biến trong vòng loop của hbs --}}

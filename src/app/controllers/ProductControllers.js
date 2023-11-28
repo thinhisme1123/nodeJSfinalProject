@@ -68,6 +68,67 @@ class ProductControllers {
                 res.status(500).json({ error: 'Internal Server Error' });
             });
     }
+
+    // [DELETE] /delete product
+    async deleteProduct(req,res) {
+        const productID = req.params.id
+        console.log(productID)
+        try {
+            const result = await Product.deleteOne({ _id: productID});
+            console.log(`Deleted ${result.deletedCount} document`);       
+            res.json({message: "OK"})
+          } catch(error) {
+            // Close the connection when you're done
+            res.send(error)
+          }
+    }
+
+    // [GET] /edit product
+    async showEditProduct(req,res) {
+        const productID = req.params.id
+        Product.findById(productID)
+        .lean()
+        .then(product => {
+            if (!product) {
+                // Product not found
+                return res.status(404).json({ error: 'Product not found' });
+            }
+                res.render('edit-product',{userLogin, title: "Edit Product Page" ,product})
+            })
+            .catch(error => {
+                console.error('Error fetching product by ID:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+            });
+        
+    }
+
+    // [UPDATE] /edit product
+    editProduct(req, res) {
+        const productID = req.params.id;
+        const uploadedImage = req.file;
+        const image = req.file ? `/uploads/products/${uploadedImage.filename}` : null;
+        //dùng toán tử rest để lưu trữ giá trị cũ và giá trị mới
+        const updateFields = { ...req.body, image };
+
+
+        Product.findOneAndUpdate(
+          { _id: productID },
+          { $set: updateFields },
+          { new: true, lean: true } // This will return the updated document
+        )
+          .then(updatedProduct => {
+            if (!updatedProduct) {
+              return res.status(404).json({ error: 'Product not found' });
+            }
+            // Successfully updated, send the updated product in the response
+            res.redirect('/product')
+          })
+          .catch(error => {
+            console.error('Error updating product:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+    }
+      
 }
 
 

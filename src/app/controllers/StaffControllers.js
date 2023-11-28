@@ -44,7 +44,7 @@ class StaffControllers {
     }
     // [POST] /create staff
     async createStaff(req, res) {
-        const { email, role ,change, verified} = req.body;
+        const { email, role ,change, verified, image } = req.body;
         const username = getUsernameFromEmail(email);
     
         console.log('Username:', username);
@@ -63,11 +63,13 @@ class StaffControllers {
                 }
                 else {
                     try {
+                        const imageUrl = req.file ? `/uploads/staffs/${req.file.filename}` : null;
                         const us = new Account({
                             username: username,
                             password: username,
                             email: email,
                             role: role,
+                            image: imageUrl,
                             change:change,
                             verified:verified
                         });
@@ -124,7 +126,19 @@ class StaffControllers {
                 }
             })
     }
-    
+    // [delete] /staff/delete/:id
+    async deleteStaff(req,res) {
+        const staffID = req.params.id
+        console.log(staffID)
+        try {
+            const result = await Account.deleteOne({ _id: staffID});
+            console.log(`Deleted ${result.deletedCount} document`);       
+            res.json({message: "OK"})
+          } catch(error) {
+            // Close the connection when you're done
+            res.send(error)
+          }
+    }
 }
 
 module.exports = new StaffControllers();
