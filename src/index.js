@@ -59,6 +59,9 @@ app.engine(
             isAdmin(role) {
                 return role === 'admin';
             },
+            isStaff(role) {
+                return role === 'staff';
+            },
             isVerified(change) {
                 return change === 0;
             }

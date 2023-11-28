@@ -29,126 +29,36 @@
                 <div class="product-file-icon">
                     <a href="/create-pdf"><i class="fa-solid fa-file-pdf"></i></a>
                 </div>
-                
-                <div class="product-list-section-container">
-                    <div class="product-list-header">
-                        <div class="product-list-checkbox">
-                            <input class="product-checkbox-input" type="checkbox" name="all-products">
-                        </div>
-                        <div class="product-list-title">
-                            <i class="fa-solid fa-sort"></i>
-                            <h6>Staff Name</h6>
-                        </div>
-                         <div class="product-list-title">
-                            <i class="fa-solid fa-sort"></i>
-                            <h6>Category</h6>
-                        </div>
-                         <div class="product-list-title">
-                            <i class="fa-solid fa-sort"></i>
-                            <h6>Brand</h6>
-                        </div>
-                         <div class="product-list-title">
-                            <i class="fa-solid fa-sort"></i>
-                            <h6>Price</h6>
-                        </div>
-                        <div class="product-list-title">
-                            <i class="fa-solid fa-sort"></i>
-                            <h6>Qty</h6>
-                        </div>
-                        <div class="product-list-title">
-                            <i class="fa-solid fa-sort"></i>
-                            <h6>Create by</h6>
-                        </div>
-                        <div class="product-list-title">
-                            <i class="fa-solid fa-sort"></i>
-                            <h6>Action</h6>
-                        </div>
-                    </div>
-                    <div class="product-list-item">
-                        <div class="product-list-checkbox">
-                            <input class="product-checkbox-input" type="checkbox" name="products">
-                        </div>
-                        <div class="product-list-item_info">
-                            <i class="fa-solid fa-sort"></i>
-                            <h6>Macbook pro</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <a class="product-list-item_info_link" href="/product"><i class="fa-regular fa-eye"></i></a>
-                            <a class="product-list-item_info_link" href="/product/edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a class="product-list-item_info_link" href="/product/delete"><i class="fa-solid fa-trash"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-list-item">
-                        <div class="product-list-checkbox">
-                            <input class="product-checkbox-input" type="checkbox" name="products">
-                        </div>
-                        <div class="product-list-item_info">
-                            <i class="fa-solid fa-sort"></i>
-                            <h6>Macbook pro</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <i class="fa-regular fa-eye"></i>
-
-                        </div>
-                    </div>
-                    <div class="product-list-item">
-                        <div class="product-list-checkbox">
-                            <input class="product-checkbox-input" type="checkbox" name="products">
-                        </div>
-                        <div class="product-list-item_info">
-                            <i class="fa-solid fa-sort"></i>
-                            <h6>Macbook pro</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                        <div class="product-list-item_info">
-                            <h6>Computer</h6>
-                        </div>
-                    </div>
-                </div>
+                <table class="table profile-table" >
+                    <thead >
+                        <tr class="profile-header">
+                            <th scope="col"><input class="product-checkbox-input" type="checkbox" name="all-staffs"></th>
+                            <th scope="col"><i class="fa-solid fa-sort icon-sort"></i>User Name</th>
+                            <th scope="col"><i class="fa-solid fa-sort icon-sort"></i>Email</th>
+                            <th scope="col"><i class="fa-solid fa-sort icon-sort"></i>Role</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each staff}}
+                            {{#if (isStaff role)}}
+                                <tr>
+                                    <th scope="row"><input class="product-checkbox-input" type="checkbox" name="staffs"></th>
+                                    <td><img class="product-img" src="" alt=""><span style="margin-left:10px;">{{username}}</span></td>
+                                    <td>{{email}}</td>
+                                    <td>{{role}}</td>
+                                    <td class="product-action">
+                                        <a class="product-list-item_info_link" href="/product"><i class="fa-regular fa-eye"></i></a>
+                                        {{#if (isAdmin ../globalData.role)}}
+                                                <a class="product-list-item_info_link ml-2" href="/product/edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a class="product-list-item_info_link ml-2" href="/product/delete"><i class="fa-solid fa-trash"></i></a>
+                                        {{/if}}
+                                    </td>
+                                </tr>
+                            {{/if}}
+                        {{/each}}
+                    </tbody>
+                </table>
             </div>
             
         </div>
@@ -156,15 +66,15 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('input[name="all-products"]').change(function() {
-            $('input[name="products"]').prop('checked', this.checked);
+        $('input[name="all-staffs"]').change(function() {
+            $('input[name="staffs"]').prop('checked', this.checked);
         });
 
-        $('input[name="products"]').change(function() {
-            if (!$('input[name="products"]').not(':checked').length) {
-                $('input[name="all-products"]').prop('checked', true);
+        $('input[name="staffs"]').change(function() {
+            if (!$('input[name="staffs"]').not(':checked').length) {
+                $('input[name="all-staffs"]').prop('checked', true);
             } else {
-                $('input[name="all-products"]').prop('checked', false);
+                $('input[name="all-staffs"]').prop('checked', false);
             }
         });
     });

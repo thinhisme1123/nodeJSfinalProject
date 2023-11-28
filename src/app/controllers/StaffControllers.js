@@ -28,7 +28,15 @@ class StaffControllers {
     index(req, res) {
         const isActive = true;
         console.log(req.session.user)
-        res.render('staff', {userLogin, title: "Staff Page"})
+
+        Account.find().lean()
+            .then(staff => {
+                    res.render('staff', {userLogin, title: "Staff Page",staff:staff})
+            })
+            .catch((error) => {
+                console.error('Error fetching products:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+            });
     }
     // [GET] /show create staff 
     createStaffInterface(req,res) {
