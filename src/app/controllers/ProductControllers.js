@@ -99,10 +99,9 @@ class ProductControllers {
                 console.error('Error fetching product by ID:', error);
                 res.status(500).json({ error: 'Internal Server Error' });
             });
-        
     }
 
-    // [UPDATE] /edit product
+    // [POST] /edit product
     editProduct(req, res) {
         const productID = req.params.id;
         const uploadedImage = req.file;

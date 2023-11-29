@@ -76,7 +76,7 @@ class StaffControllers {
                         await us.save();
                         // Generate a token with a 1-minute expiration time
                         //expireIn phải để vị trí cuối cùng của jwt.sign
-                        const verificationToken = jwt.sign({ email }, 'thinhisme123', { expiresIn: '20s' });
+                        const verificationToken = jwt.sign({ email }, 'thinhisme123', { expiresIn: '1m' });
                         req.session.token = verificationToken
                         req.session.username = username
                         console.log(req.session.username)
@@ -138,6 +138,51 @@ class StaffControllers {
             // Close the connection when you're done
             res.send(error)
           }
+    }
+    // [GET] /edit staff
+    async showEditStaff(req,res) {
+        const staffID = req.params.id
+        
+        Account.findById(staffID)
+        .lean()
+        .then(staff => {
+            if (!staff) {
+                // Product not found
+                return res.status(404).json({ error: 'Staff not found' });
+            }
+                res.render('edit-staff',{userLogin, title: "Edit Staff Page" , staff})
+            })
+            .catch(error => {
+                console.error('Error fetching staff by ID:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+            });
+        
+    }
+    // [POST] /edit staff
+    editStaff(req, res) {
+        const staffID = req.params.id;
+        const uploadedImage = req.file;
+        const image = req.file ? `/uploads/staffs/${uploadedImage.filename}` : null;
+        //dùng toán tử rest để lưu trữ giá trị cũ và giá trị mới
+        const updateFields = { ...req.body, image };
+
+
+        Account.findOneAndUpdate(
+          { _id: staffID },
+          { $set: updateFields },
+          { new: true, lean: true } // This will return the updated document
+        )
+          .then(updatedStaff => {
+            if (!updatedStaff) {
+              return res.status(404).json({ error: 'Staff not found' });
+            }
+            // Successfully updated, send the updated product in the response
+            res.redirect('/staff')
+          })
+          .catch(error => {
+            console.error('Error updating staff:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
     }
 }
 

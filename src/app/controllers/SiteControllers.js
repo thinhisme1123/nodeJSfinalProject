@@ -4,6 +4,8 @@
 const Account = require('../models/Account')
 const session = require('express-session')
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 var userLogin = false
 //chứa function handler
@@ -32,14 +34,36 @@ class SiteControllers {
     login(req, res, next) {
         const { username, password } = req.body
         console.log(username, password)
-        
-        Account.findOne({ username: username, password: password })
+        Account.findOne({ username: username})
             .then(user => {
                 console.log(user)
                 if (user) {
-                    req.session.user = user
-                    res.redirect('/');
-                  userLogin = true;
+                    // this if is just for admin account
+                    if(password === user.password) {
+                        req.session.user = user
+                        userLogin = true
+                        console.log('success')
+                        return res.redirect('/')
+                    }
+                    else {
+                        // this else for staff account
+                        bcrypt.compare(password, user.password).then(function (result) {
+                        
+                            if (result) {   
+                                req.session.user = user
+                                userLogin = true
+                                console.log('success')
+                                return res.redirect('/')
+                            }
+                            req.session.flash = {
+                                msg: 'Username or password is wrong !'
+                            }
+                            return res.render('login', {
+                                msg: req.session.flash ? req.session.flash.msg : null
+                            });
+                        })
+                    }
+                    
                 } else {
                     res.render('login', {message: "Username or passowrd incorrect !"});
                 }
@@ -59,24 +83,26 @@ class SiteControllers {
     }
     // [GET] /changepassword
     showChangePW(req,res) {
-        var blocked = true
+        console.log("Changing")
+        console.log(req.session.user.username)
         res.render('changePassword', {title: 'Change Password',showAlert:false,code:1,username:req.session.user.username})
     }
     // [POST] /changepassword
-    async changePW(req,res) {
+    changePW(req,res) {
         const {username,password, comfirmPassword} = req.body
         console.log(password.length)
         if(password.length < 6) {
             return res.render('changePassword', {title: 'Change Password',showAlert:true,code:0,message: 'The password must has at least 6 characters!'})
         }
         if(password === comfirmPassword) {
-
-            const result = await Account.updateOne(
-                { username: username }, // Replace with the actual username
-                { $set: { password: comfirmPassword,
-                          change: 1
-                } }
-            );
+            bcrypt.hash(comfirmPassword, saltRounds, async function(err, hash) {
+                const result = await Account.updateOne(
+                    { username: username }, // Replace with the actual username
+                    { $set: { password: hash ,
+                              change: 1
+                    } }
+                );
+            });
             res.redirect('/login')
             
         } else {

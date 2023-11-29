@@ -22,6 +22,11 @@
                         {{message}}
                     </div>
                 {{/if}}
+                {{#if msg}}
+                    <div class="alert alert-danger alert-message mt-3">
+                        {{msg}}
+                    </div>
+                {{/if}}
 
             </form>
         </div>
@@ -35,5 +40,5 @@
         document.body.style.backgroundImage = 'linear-gradient(to bottom left, #e40911, #261192, #06d0e6)';
         document.body.style.fontFamily = 'Montserrat, sans-serif';
     });
-
+    localStorage.removeItem('username');
 </script>

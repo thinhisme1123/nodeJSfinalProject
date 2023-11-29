@@ -50,7 +50,7 @@
                                     <td class="product-action">
                                         <a class="product-list-item_info_link" href="/product"><i class="fa-regular fa-eye"></i></a>
                                         {{#if (isAdmin ../globalData.role)}}
-                                            <a class="product-list-item_info_link ml-2" href="/product/edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a class="product-list-item_info_link ml-2" href="/staff/edit/{{_id}}"><i class="fa-solid fa-pen-to-square"></i></a>
                                             <a data-staffname="{{username}}" data-id="{{_id}}" class="delete-staff-link product-list-item_info_link ml-2" href="/staff/delete/{{_id}}"><i class="fa-solid fa-trash"></i></a>
                                         {{/if}}
                                     </td>
@@ -89,6 +89,7 @@
         $('input[name="all-staffs"]').change(function() {
             $('input[name="staffs"]').prop('checked', this.checked);
         });
+    
 
         $('input[name="staffs"]').change(function() {
             if (!$('input[name="staffs"]').not(':checked').length) {

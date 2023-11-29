@@ -25,6 +25,7 @@ router.get('/',getUsername, staffControllers.index);
 router.get('/create-staff',getUsername, staffControllers.createStaffInterface);
 router.post('/create-staff',upload.single('image'), validator ,getUsername, staffControllers.createStaff);
 router.delete('/delete/:id',getUsername,staffControllers.deleteStaff)
-
+router.get('/edit/:id',getUsername,staffControllers.showEditStaff)
+router.put('/edit/:id',upload.single('image'),getUsername,staffControllers.editStaff)
 
 module.exports = router;
