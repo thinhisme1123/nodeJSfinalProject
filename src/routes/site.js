@@ -12,4 +12,6 @@ router.get('/profile',getUsername,siteControllers.showProfile);
 router.get('/change-password',siteControllers.showChangePW);
 router.post('/changepassword',siteControllers.changePW);
 router.get('/verify-account',  siteControllers.verifyStaff);
+router.get('/pos',  siteControllers.showPOS);
+
 module.exports = router;

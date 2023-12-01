@@ -4,14 +4,13 @@ const Schema = mongoose.Schema;
 //nếu muốn thêm _id tự động từ mongo tạo cho thì không cần phải khai báo _id
 
 const OrderSchema = new Schema({
-    productName: { type: String, required: true },
-    category: { type: String, default: '' },
-    brand: { type: String },
-    price: { type: String },
-    description: { type: String },
-    quantity: { type: String },
-    createdBy: { type: String },
-    image: { type: String }
+    cusID: { type: String, required: true },
+    staffID: { type: String, required: true },
+    totalAmount: { type: String, default: '' },
+    givenAmount: { type: String },
+    change: { type: String },
+    dateBuy: { type: Date, default: Date.now },
+    amount: { type: String }
 });
 
 OrderSchema.plugin(mongooseDelete, { overrideMethods: true });

@@ -1,0 +1,513 @@
+<div class="body-container">
+    <div class="backhome-button">
+        <a href="/" class="btn btn-secondary backhome-button_link" ><i class="fa-solid fa-backward"></i>   Home</a>
+    </div>
+    <div class="grid-container">
+        <div class="header-product">
+            <div class="header-product-left">
+                <h4>POS</h4>
+                <p>Manage your purchases</p>
+            </div>
+            <div class="header-product-right_pos">
+                <h4>List Items</h4>
+                <p>Transaction id : <span>#65565</span></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col product-list-container_pos">
+            <div class="product-container_pos">
+                <div class="product-search">
+                    <div class="product-search_icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <div class="product-search_box">
+                        <input type="text" id="product-search-box" placeholder="Search...">
+                    </div>
+                </div>
+                <table class="table product-table_pos" id="productTable">
+                    <thead >
+                        <tr class="profile-header">
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Brand</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Qty</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each product}}
+                            <tr>
+                                <td><img class="product-img" src="{{image}}" alt=""><span style="margin-left:10px;">{{productName}}</span></td>
+                                <td>{{category}}</td>
+                                <td>{{brand}}</td>
+                                <td>{{price}}</td>
+                                <td>{{quantity}}</td>
+                                <td class="product-action">
+                                    <a data-id="{{_id}}" class="product-list-item_info_link_pos" href="/pos/pos-adding/{{_id}}"><i class="fa-solid fa-plus"></i></a>
+                                    {{#if (isAdmin ../globalData.role)}}
+                                            <a class="product-list-item_info_link ml-2" href="/product/edit/{{_id}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a data-productname="{{productName}}" data-id="{{_id}}" class="delete-product-link product-list-item_info_link ml-2" href="/product/delete/{{_id}}"><i class="fa-solid fa-trash"></i></a>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            
+            </div>
+            <div class="col ml-3 product-list-container_pos">
+                <div class="product-container_pos">
+                    <table class="table product-table_pos_listitems" id="product_cart_list">
+                        <thead >
+                            <tr class="profile-header">
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           {{!-- {{#each product}}
+                                <tr>
+                                    <td><img class="product-img" src="{{image}}" alt=""><span style="margin-left:10px;">{{productName}}</span></td>
+                                    <td>{{price}}</td>
+                                    <td><button data-id="{{_id}}" class="amount-btn_pos-minus"><i class="fa-solid fa-minus"></i></button><input value="{{quantity}}" data-id="{{_id}}" class="quantity-container  transparent-input "><button data-id="{{_id}}" class="amount-btn_pos-plus"><i class="fa-solid fa-plus"></i></button></td>
+                                    <td class="product-action">
+                                        <a class="product-list-item_info_link_pos" href="/pos/pos-adding/{{_id}}"><i class="fa-solid fa-trash"></i></a>
+                                        {{#if (isAdmin ../globalData.role)}}
+                                                <a class="product-list-item_info_link ml-2" href="/product/edit/{{_id}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a data-productname="{{productName}}" data-id="{{_id}}" class="delete-product-link product-list-item_info_link ml-2" href="/product/delete/{{_id}}"><i class="fa-solid fa-trash"></i></a>
+                                        {{/if}}
+                                    </td>
+                                </tr>
+                            {{/each}} --}}
+                        </tbody>
+                    </table>
+                    <div class="button-submit">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCustomerModal">
+                            View Customer History
+                        </button>
+                        <button type="button" class="ml-3 btn btn-primary" id="checkout-btn" style="background-color: #7367f0;" data-target="#orderModal" data-toggle="modal">
+                            Checkout <span id="total-checkout"></span>
+                        </button>
+                    </div>
+                    <div class="order-info">
+                        <div class="order-infor-left">
+                            <h6>Sutotal</h6>
+                            <h6>Tax</h6>
+                            <h6>Total</h6>
+                        </div>
+                        <div class="order-infor-right">
+                            <h6 style="text-align: right;" id="subTotal-value"><span>0$</span></h6>
+                            <h6 style="text-align: right;" id="tax-value"><span>0$</span></h6>
+                            <h6 id="total-value"><span>0$</span></h6>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal View customer -->
+    <div class="modal fade" id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCustomerModalLabel">Add Customer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Your customer information form goes here -->
+                    <form id="customerForm">
+                        <!-- Add form fields for customer information -->
+                        <!-- Add more form fields as needed -->
+
+                        <!-- Example: Email -->
+                        <div class="form-group">
+                            <label for="customerEmail">Email</label>
+                            <input type="email" class="form-control" id="customerEmail" name="customerEmail" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" >Save Customer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   {{!-- modal --}}
+   <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete product <strong id="productNameInModal"></strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{!-- Create customer modal : checkout button--}}
+   <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCustomerModalLabel">Order Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="customerForm">
+                        <div class="form-group">
+                            <label for="customerID">Order ID</label>
+                            <input value="" type="email" class="form-control" id="customerID" name="customerID" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhoneNumber">Phone Number</label>
+                            <input type="text" type="email" class="form-control" id="phoneNumber" name="phoneNumber" pattern="[0-9]+" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerName">Customer Name</label>
+                            <input type="text" class="form-control" id="customerName" name="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerAddress">Adddress</label>
+                            <input type="text" class="form-control" id="address" name="address" required>
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveCustomerBtn">Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('input[name="all-products"]').change(function() {
+            $('input[name="products"]').prop('checked', this.checked);
+        });
+
+        $('input[name="products"]').change(function() {
+            if (!$('input[name="products"]').not(':checked').length) {
+                $('input[name="all-products"]').prop('checked', true);
+            } else {
+                $('input[name="all-products"]').prop('checked', false);
+            }
+        });
+        //handle delete product 
+          $(".delete-product-link").on("click", function (e) {
+            e.preventDefault()
+            var productName = $(this).data("productname");
+             var productID = $(this).data("id");
+             console.log(productID)
+            $("#productNameInModal").text(productName);
+            $("#confirmModal").modal("show");
+
+            $("#confirmDelete").on("click", function () {
+                $.ajax({
+                    url: `/product/delete/${productID}`,
+                    method: "DELETE",
+                    dataType: "json", 
+                    success: function (data) {            
+                        console.log(data)
+                        window.location.reload()
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", status, error);
+                    }
+                });
+                $("#confirmModal").modal("hide");
+            });
+        });
+
+        
+        //handle plus and minus the amount
+        $(document).on("click", ".amount-btn_pos-plus", function () {
+            var productId = $(this).data("id");
+            updateQuantity(productId, 1); // Increase quantity by 1
+            calculateSubtotal()
+        })
+
+        // With event delegation, khi thêm element mới vào DOM, muốn xử lí sự kiện của element đó phải sử dụng
+        //$(document).on + sự kiện thì DOM mới bắt được sự kiện và chạy script
+    // Minus button click event
+        $(document).on("click", ".amount-btn_pos-minus", function () {
+            var productId = $(this).data("id");
+            updateQuantity(productId, -1); // Decrease quantity by 1
+            calculateSubtotal()
+        });
+
+    // Input change event
+    $(".quantity-container").on("change", function () {
+        var productId = $(this).data("id");
+        var newQuantity = parseInt($(this).val()) || 0; // Get the new quantity from the input
+
+        // Ensure the quantity is not negative
+        newQuantity = Math.max(newQuantity, 0);
+
+        // Update the quantity on the page
+        $(this).val(newQuantity);
+
+        // You can also send an AJAX request to update the quantity on the server
+        // Here, we're logging the new quantity to the console for demonstration purposes
+        console.log("New quantity for product " + productId + ": " + newQuantity);
+        
+    });
+    function handleminusClick() {
+        console.log("minus Clicked")
+    }
+
+    function updateQuantity(productId, change) {
+        var quantityElement = $(".quantity-container[data-id='" + productId + "']");
+        var currentQuantity = parseInt(quantityElement.val()) || 0;
+        console.log(currentQuantity)
+        var newQuantity = currentQuantity + change;
+
+        // Ensure the quantity is not negative
+        newQuantity = Math.max(newQuantity, 0);
+
+        // Update the quantity on the page
+        quantityElement.val(newQuantity);
+
+        // You can also send an AJAX request to update the quantity on the server
+        // Here, we're logging the new quantity to the console for demonstration purposes
+        console.log("New quantity for product " + productId + ": " + newQuantity);
+    }
+
+        //hanlde search product box
+        $('#product-search-box').on('input', function() {
+        const searchTerm = $(this).val();
+
+        $.ajax({
+            url: '/pos/search',
+            method: 'POST',
+            data: { searchTerm: searchTerm },
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+                // Display the results
+                const productTable = $('#productTable');
+                const tableBody = productTable.find('tbody');
+                console.log($("#productTable tbody tr").length)
+                $("#productTable tbody tr").remove()
+                
+                data.forEach(function (result) {
+                // Append a new row for each product
+                const newRow = `
+                    <tr>
+                        <td><img class="product-img" src="${result.image}" alt=""><span style="margin-left:10px;">${result.productName}</span></td>
+                        <td>${result.category}</td>
+                        <td>${result.brand}</td>
+                        <td>${result.price}</td>
+                        <td>${result.quantity}</td>
+                        <td class="product-action">
+                            <a class="product-list-item_info_link_pos" href="/pos/pos-adding/${result._id}"><i class="fa-solid fa-plus"></i></a>                             
+                        </td>
+                    </tr>`;
+
+                tableBody.append(newRow);
+                });
+            },
+            error: function (err) {
+                console.error('Error:', err);
+            }
+        });
+        });      
+
+       //handle add product cart
+       $('.product-list-item_info_link_pos').on('click', function(event) {
+            event.preventDefault()
+            const id = $(this).data("id");
+
+            $.ajax({
+                url: `/pos/pos-adding/${id}`,
+                method: 'POST',
+                success: function (data) {
+                    console.log(data)
+                    // Display the results
+                    const productTable = $('#product_cart_list');
+                    const tableBody = productTable.find('tbody');
+                    console.log($("#product_cart_list tbody tr").length)
+        
+                    data.forEach(function (result) {
+                    // Check if the product already exists in the table
+                    const existingRow = $(`#product_cart_list tbody tr[data-id="${result._id}"]`);
+
+                    if (existingRow.length === 0) {
+                        // Product does not exist, append a new row
+                        const newRow = `
+                            <tr data-id="${result._id}">
+                                <td><img class="product-img" src="${result.image}" alt=""><span style="margin-left:10px;">${result.productName}</span></td>
+                                <td>${result.price}</td>
+                                <td><button data-id="${result._id}" class="amount-btn_pos-minus"><i class="fa-solid fa-minus"></i></button><input value="1" data-id="${result._id}" class="quantity-container transparent-input"><button data-id="${result._id}" class="amount-btn_pos-plus"><i class="fa-solid fa-plus"></i></button></td>
+                                <td class="product-action">
+                                    <a data-id="${result._id}" class="product-list-item_delete_link_pos" href="/pos/delete/${result._id}"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>`;
+
+                            tableBody.append(newRow);
+                            calculateSubtotal()
+                        } else {
+                            // Product already exists, you may want to update its information or handle accordingly
+                            updateQuantity(result._id, 1)
+                            calculateSubtotal()
+                        }
+                        });
+                    },
+                    error: function (err) {
+
+                        console.error('Error:', err);
+                    }
+            });
+        });  
+        //handle input update the total
+        $(document).on("input", ".quantity-container", function (e) {
+            calculateSubtotal()
+        }) 
+        //handle delete product in cart       
+        $(document).on("click", ".product-list-item_delete_link_pos", function (e) {
+            e.preventDefault()
+             var productID = $(this).data("id");
+             console.log(productID)
+
+            $.ajax({
+                url: `/pos/delete/${productID}`,
+                method: "DELETE", 
+                success: function (data) {            
+                    const existingRow = $(`#product_cart_list tbody tr[data-id="${data._id}"]`);
+                    if (existingRow.length !== 0) {
+                        $(`#product_cart_list tbody tr[data-id="${data._id}"]`).remove();
+                        calculateSubtotal()
+                    } else {
+                        console.log("Not found")
+                    }
+                },
+                error: function (xhr, status, error) { 
+                    console.error("Error:", status, error);
+                }
+            });
+        }) 
+        //hanlde count the total price
+
+        function calculateSubtotal() {
+            let subtotal = 0;
+            const quantityInputs = document.querySelectorAll('.quantity-container');
+
+            quantityInputs.forEach(input => {
+                const amount = parseInt(input.value); // Assuming the amount is an integer
+                const priceElement = input.closest('tr').querySelector('td:nth-child(2)');
+                const price = parseFloat(priceElement.textContent);
+
+                subtotal += amount * price; 
+            });
+            const subTotalValue = $('#subTotal-value')
+
+            subtotal = subtotal.toFixed(2)
+
+            const taxValue = $('#tax-value')
+            const totalValue = $('#total-value')
+            const totalCheckout = $('#total-checkout')
+
+            const tax = (subtotal * 10/100).toFixed(1)
+
+            subTotalValue.html(subtotal + '$')
+            taxValue.html(tax +'$')
+            totalCheckout.html(subtotal +'$')
+
+            const total = (Number(subtotal) +Number(tax)).toFixed(2)
+            console.log(total)
+
+            totalValue.html(total + '$')
+            console.log(subtotal)
+        }
+        //handle phone number and find customer
+        $('#phoneNumber').on("change", (e) => {
+            $.ajax({
+                url: "/pos/checkNumber",
+                method: "POST", 
+                data: {
+                    phone_number: e.target.value
+                },
+                dataType: 'json',
+                success: function (data) {            
+                    if (data) {
+                        console.log(data.customerName);
+                        $('#customerName').val(data.customerName)
+                        $('#address').val(data.address)
+                    } else {
+                       console.log("Not found")
+                        
+                    }
+                },
+                error: function (xhr, status, error) { 
+                    console.error("Error:", status, error);
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+        $('#saveCustomerBtn').on('click', () => { 
+            const customerName = $('#customerName').val()
+            const address = $('#address').val()
+            const phoneNumber = $('#phoneNumber').val()
+            //create customer
+            $.ajax({
+                url: '/pos/createCustomer',
+                method: "POST", 
+                data: {
+                    customerName: customerName,
+                    address:address,
+                    phoneNumber: phoneNumber
+                },
+                dataType: 'text',
+                success: function (data) {
+                    console.log(data);
+                    
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", status, error);
+                    console.log(xhr.responseText);
+                }
+            })
+            //create order
+            $.ajax({
+                url: '/pos/createOrder',
+                method: "POST", 
+                data: {
+                    
+                },
+                dataType: 'text',
+                success: function (data) {
+                    console.log(data);
+                    window.location.href = '/customer';
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", status, error);
+                    console.log(xhr.responseText);
+                }
+            })
+        })
+
+    });
+</script>
+{{!-- cần phải ../ khi truy cập một biến trong vòng loop của hbs --}}

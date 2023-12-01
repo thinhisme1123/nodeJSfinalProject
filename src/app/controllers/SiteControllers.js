@@ -2,6 +2,7 @@
 // Đối với phiên bản hiện tại của handlebar thì sẽ không cần viết tool chuyển sang object nữa, 
 // cứ truyền thẳng vào
 const Account = require('../models/Account')
+const Product = require('../models/Product')
 const session = require('express-session')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -120,7 +121,7 @@ class SiteControllers {
         jwt.verify(token,'thinhisme123',async (err, decoded) => {
             if (err) {
                 // Token is invalid or has expired
-                return res.send("Link is not available. Please contract to your admin!")
+                return res.render('errorLink',  {title: "Error Page"})
                 // Handle the error, e.g., render an error page or show a message to the user
             } else {
                 const result = await Account.updateOne(
@@ -133,7 +134,16 @@ class SiteControllers {
                 // Redirect the user to a success page or show a message indicating successful verification
             }
         });
-        
+    }
+    showPOS(req,res) {
+        Product.find().lean()
+            .then(product => {
+                    res.render('POS', {title: "POS Page",product:product})
+            })
+            .catch((error) => {
+                console.error('Error fetching products:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+            });
     }
 }
 
