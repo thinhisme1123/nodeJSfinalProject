@@ -110,39 +110,81 @@
             </div>
         </div>
     </div>
-    
-    <!-- Modal View customer -->
-    <div class="modal fade" id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addCustomerModalLabel">Add Customer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Your customer information form goes here -->
-                    <form id="customerForm">
-                        <!-- Add form fields for customer information -->
-                        <!-- Add more form fields as needed -->
+    <!-- Payement the order -->
+   <div class="modal fade" id="payOrderModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCustomerModalLabel">Payment Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Left column -->
+                        <form id="orderForm">
+                            <!-- Your left column form fields go here -->
+                            <div class="form-group">
+                                <label for="customerID">Order ID</label>
+                                <input value="" type="email" class="form-control" id="orderID" name="orderID" disabled>
+                            </div>
+                            <!-- Add other left column form fields here -->
+                            <div class="form-group">
+                                <label for="customerPhoneNumber">Phone Number</label>
+                                <input type="text" type="email" class="form-control" id="phoneNumberOrder" name="phoneNumberOrder" pattern="[0-9]+" required disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerName">Customer Name</label>
+                                <input type="text" class="form-control" id="customerNameOrder" name="customerNameOrder" required disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerAddress">Adddress</label>
+                                <input type="text" class="form-control" id="addressOrder" name="addressOrder" required disabled>
+                            </div>
+                            
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Right column -->
+                        <form id="orderForm">
 
-                        <!-- Example: Email -->
-                        <div class="form-group">
-                            <label for="customerEmail">Email</label>
-                            <input type="email" class="form-control" id="customerEmail" name="customerEmail" required>
-                        </div>
-                    </form>
+                            <!-- Your right column form fields go here -->
+                            <div class="form-group">
+                                <label for="orderGivenMoney">Total Amount</label>
+                                <input type="text" class="form-control" id="totalAmount" name="totalAmount" required disabled>
+                            </div>
+                            <!-- Add other right column form fields here -->
+                            <div class="form-group">
+                                <label for="orderGivenMoney">Given Amount</label>
+                                <input type="text" class="form-control" id="givenMoney" name="givenMoney" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="orderGivenMoney">Change</label>
+                                <input type="text" class="form-control" id="changeMoney" name="changeMoney" required disabled>
+                            </div>
+                            <div style="display: none;" class="form-group" id="alertMoneyProblem">
+                                <label for="orderGivenMoney">Notice</label>
+                                <div id="orderAlert" class="alert alert-danger" role="alert">
+
+                                </div>
+                            </div>
+                            
+                        </form>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" >Save Customer</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="purchaseBtn" type="button" class="btn btn-success">Purchase</button>
             </div>
         </div>
     </div>
+</div>
 
-   {{!-- modal --}}
+
+   {{!--comform detele modal --}}
    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content bg-dark text-white">
@@ -216,7 +258,7 @@
             }
         });
         //handle delete product 
-          $(".delete-product-link").on("click", function (e) {
+        $(".delete-product-link").on("click", function (e) {
             e.preventDefault()
             var productName = $(this).data("productname");
              var productID = $(this).data("id");
@@ -251,7 +293,7 @@
 
         // With event delegation, khi thêm element mới vào DOM, muốn xử lí sự kiện của element đó phải sử dụng
         //$(document).on + sự kiện thì DOM mới bắt được sự kiện và chạy script
-    // Minus button click event
+        // Minus button click event
         $(document).on("click", ".amount-btn_pos-minus", function () {
             var productId = $(this).data("id");
             updateQuantity(productId, -1); // Decrease quantity by 1
@@ -259,7 +301,7 @@
         });
 
     // Input change event
-    $(".quantity-container").on("change", function () {
+        $(".quantity-container").on("change", function () {
         var productId = $(this).data("id");
         var newQuantity = parseInt($(this).val()) || 0; // Get the new quantity from the input
 
@@ -274,11 +316,8 @@
         console.log("New quantity for product " + productId + ": " + newQuantity);
         
     });
-    function handleminusClick() {
-        console.log("minus Clicked")
-    }
 
-    function updateQuantity(productId, change) {
+        function updateQuantity(productId, change) {
         var quantityElement = $(".quantity-container[data-id='" + productId + "']");
         var currentQuantity = parseInt(quantityElement.val()) || 0;
         console.log(currentQuantity)
@@ -297,46 +336,46 @@
 
         //hanlde search product box
         $('#product-search-box').on('input', function() {
-        const searchTerm = $(this).val();
+            const searchTerm = $(this).val();
 
-        $.ajax({
-            url: '/pos/search',
-            method: 'POST',
-            data: { searchTerm: searchTerm },
-            dataType: 'json',
-            success: function (data) {
-                console.log(data)
-                // Display the results
-                const productTable = $('#productTable');
-                const tableBody = productTable.find('tbody');
-                console.log($("#productTable tbody tr").length)
-                $("#productTable tbody tr").remove()
-                
-                data.forEach(function (result) {
-                // Append a new row for each product
-                const newRow = `
-                    <tr>
-                        <td><img class="product-img" src="${result.image}" alt=""><span style="margin-left:10px;">${result.productName}</span></td>
-                        <td>${result.category}</td>
-                        <td>${result.brand}</td>
-                        <td>${result.price}</td>
-                        <td>${result.quantity}</td>
-                        <td class="product-action">
-                            <a class="product-list-item_info_link_pos" href="/pos/pos-adding/${result._id}"><i class="fa-solid fa-plus"></i></a>                             
-                        </td>
-                    </tr>`;
+            $.ajax({
+                url: '/pos/search',
+                method: 'POST',
+                data: { searchTerm: searchTerm },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    // Display the results
+                    const productTable = $('#productTable');
+                    const tableBody = productTable.find('tbody');
+                    console.log($("#productTable tbody tr").length)
+                    $("#productTable tbody tr").remove()
+                    
+                    data.forEach(function (result) {
+                    // Append a new row for each product
+                    const newRow = `
+                        <tr>
+                            <td><img class="product-img" src="${result.image}" alt=""><span style="margin-left:10px;">${result.productName}</span></td>
+                            <td>${result.category}</td>
+                            <td>${result.brand}</td>
+                            <td>${result.price}</td>
+                            <td>${result.quantity}</td>
+                            <td class="product-action">
+                                <a class="product-list-item_info_link_pos" href="/pos/pos-adding/${result._id}"><i class="fa-solid fa-plus"></i></a>                             
+                            </td>
+                        </tr>`;
 
-                tableBody.append(newRow);
-                });
-            },
-            error: function (err) {
-                console.error('Error:', err);
-            }
-        });
+                    tableBody.append(newRow);
+                    });
+                },
+                error: function (err) {
+                    console.error('Error:', err);
+                }
+            });
         });      
 
        //handle add product cart
-       $('.product-list-item_info_link_pos').on('click', function(event) {
+        $('.product-list-item_info_link_pos').on('click', function(event) {
             event.preventDefault()
             const id = $(this).data("id");
 
@@ -357,7 +396,7 @@
                     if (existingRow.length === 0) {
                         // Product does not exist, append a new row
                         const newRow = `
-                            <tr data-id="${result._id}">
+                            <tr data-id="${result._id}" data-productName="${result.productName}" data-price="${result.price}" data-quantity="${result.quantity}">
                                 <td><img class="product-img" src="${result.image}" alt=""><span style="margin-left:10px;">${result.productName}</span></td>
                                 <td>${result.price}</td>
                                 <td><button data-id="${result._id}" class="amount-btn_pos-minus"><i class="fa-solid fa-minus"></i></button><input value="1" data-id="${result._id}" class="quantity-container transparent-input"><button data-id="${result._id}" class="amount-btn_pos-plus"><i class="fa-solid fa-plus"></i></button></td>
@@ -425,6 +464,7 @@
 
             subtotal = subtotal.toFixed(2)
 
+            //store value for cart 
             const taxValue = $('#tax-value')
             const totalValue = $('#total-value')
             const totalCheckout = $('#total-checkout')
@@ -440,6 +480,8 @@
 
             totalValue.html(total + '$')
             console.log(subtotal)
+            //store value for order purchase modal
+            $('#totalAmount').val(total)
         }
         //handle phone number and find customer
         $('#phoneNumber').on("change", (e) => {
@@ -482,24 +524,109 @@
                 dataType: 'text',
                 success: function (data) {
                     console.log(data);
-                    
+                    //store value for order modal, customer's info
+                    $('#phoneNumberOrder').val(phoneNumber)
+                    $('#customerNameOrder').val(customerName)
+                    $('#addressOrder').val(address)
+                    $('#orderModal').modal('hide')
+                    $('#payOrderModal').modal('show')
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", status, error);
                     console.log(xhr.responseText);
                 }
             })
+            
+        })
+        //handle logic and calculating the change
+        $('#givenMoney').on('change', (e) => {
+            const totalAmountValue = $('#totalAmount').val()
+            const givenMoney = e.target.value
+            const changeValue = $('#changeMoney')
+            const orderAlert = $('#orderAlert')
+            const noticeMessage = $('#alertMoneyProblem')
+            const changeAmount  = Number(givenMoney - totalAmountValue).toFixed(2)
+            const absChangeAmount = Math.abs(changeAmount).toFixed(2);
+
+            if(totalAmountValue < givenMoney) {
+                changeValue.val(changeAmount)
+
+            }
+            else if(totalAmountValue === givenMoney) {
+                changeValue.val(0.00)
+            }
+            else{
+                //error the money is not enogh
+                changeValue.val(changeAmount)
+                orderAlert.html(`The customer is still missing ${absChangeAmount} $`)
+                noticeMessage.css('display','block')
+            }
+        })
+       function takeTotalQuantity() {
+            const quantityInputs = document.querySelectorAll('.quantity-container');
+            let result = 0;  // Use let instead of const
+            quantityInputs.forEach(input => {
+                const amount = parseInt(input.value, 10); // Assuming the amount is an integer
+                result = result + amount;
+            });
+            return result;
+        }
+
+
+        function getProductCart() {
+            var productsArray = [];
+             $("#product_cart_list tbody tr").each(function () {
+                // Extract data attributes from the row
+                var productId = $(this).data("id");
+                var productName = $(this).data("productname");
+                var price = $(this).data("price");
+                var quantity = $(this).data("quantity");
+
+                // Create an object with the extracted data
+                var productData = {
+                    id: productId,
+                    productName: productName,
+                    price: price,
+                    quantity: quantity
+                };
+
+                // Add the object to the array
+                productsArray.push(productData);
+                
+            });
+            return productsArray
+        }
+        //create order and print the invoice pdf
+        $('#purchaseBtn').on('click', (e) => {
+            //order information
+            const totalAmountValue = $('#totalAmount').val()
+            const givenMoneyValue = $('#givenMoney').val()
+            const changeValue = $('#changeMoney').val()
+            const totalQuantity = takeTotalQuantity()
+            const phoneNumber = $('#phoneNumber').val()
+            const productCart = getProductCart()
+            console.log(productCart)
+
             //create order
             $.ajax({
                 url: '/pos/createOrder',
                 method: "POST", 
                 data: {
-                    
+                    totalAmountValue:totalAmountValue,
+                    givenMoneyValue:givenMoneyValue,
+                    changeValue:changeValue,
+                    totalQuantity:totalQuantity,
+                    phoneNumber:phoneNumber,
+                    products:productCart
                 },
                 dataType: 'text',
                 success: function (data) {
                     console.log(data);
-                    window.location.href = '/customer';
+            
+                    console.log("Create order succes")
+                    //move to somewhere
+                    
+
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", status, error);
@@ -508,6 +635,12 @@
             })
         })
 
+
     });
 </script>
 {{!-- cần phải ../ khi truy cập một biến trong vòng loop của hbs --}}
+{{!-- ValidatorError: Path `customerName` is required.
+    lỗi một trường is required tức là đang bị trùng tên id không thể gửi lên server và không thể đổ dử 
+    liệu vào element, không thể thêm vào database
+    Solotion: tìm tên trùng và sửa
+ --}}

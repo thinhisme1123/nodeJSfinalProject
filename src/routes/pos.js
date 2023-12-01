@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const getUsername = require('../app/middlewares/setGlobaleUsername')
 
-
-const posControllers = require('../app/controllers/POSControllers');
+//lỗi lạ POS trong profile viết hoa nhưng trong code viết thường
+const posControllers = require('../app/controllers/PosControllers');
 
 router.post('/search',getUsername, posControllers.searchProduct);
 router.post('/pos-adding/:id',getUsername, posControllers.addPOSProductCart);
