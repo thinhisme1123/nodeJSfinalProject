@@ -34,6 +34,40 @@ class ProductControllers {
             });
         
     }
+
+
+     // [POST] /search product
+    searchProduct(req, res) {
+        const {searchTerm} = req.body;
+        console.log(searchTerm)
+        Product.find({
+        $or: [{
+            productName: {
+                $regex: searchTerm,
+                $options: 'i'
+            }
+            },
+            {
+            category: {
+                $regex: searchTerm,
+                $options: 'i'
+            }
+            },
+            {
+            brand: {
+                $regex: searchTerm,
+                $options: 'i'
+            }
+            },
+            // Add more fields as needed
+        ]
+        }).then(products => {
+        console.log(products)
+        res.json(products)
+        })
+
+    }
+
     // [GET] /create product
     showCreateProduct(req,res) {
         res.render('create-product',{userLogin, title: "Create Product Page"})

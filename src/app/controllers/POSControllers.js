@@ -31,9 +31,9 @@ function generateInvoice(invoiceData, filePath) {
       doc.text(`${product.productName}: ${product.quantity} x ${product.price}`);
   });
 
-  doc.moveDown().text(`Total Amount: ${invoiceData.totalAmount}`);
-  doc.text(`Given Money: ${invoiceData.givenMoney}`);
-  doc.text(`Change: ${invoiceData.change}`);
+  doc.moveDown().text(`Total Amount: $ ${invoiceData.totalAmount}`);
+  doc.text(`Given Money: $ ${invoiceData.givenMoney}`);
+  doc.text(`Change: $ ${invoiceData.change}`);
 
   doc.end();
 }
@@ -276,7 +276,7 @@ class POSControllers {
 
       generateInvoice(invoiceData, filePath);
 
-      res.send("OK");
+      res.json({id: sharedOrderId });
   }
   
 
@@ -293,6 +293,44 @@ class POSControllers {
     } = req.body
 
   }
+
+  showInvoice(req, res) {
+    console.log("show invoice");
+    const orderID = req.params.id;
+  
+    OrderDetail.find({
+      order: orderID
+    }).lean()
+    .then(orderDetail => {
+      if (orderDetail.length > 0) {  // Check if there are any order details
+        Order.findOne({
+          _id: orderDetail[0].order // Assuming you want to find the order using the first orderDetail's order ID
+        }).lean()
+        .then(order => {
+          if (order) {
+            console.log(orderDetail);
+            res.render('invoice', { title: 'Invoice', orderDetail: orderDetail, order:order });
+          } else {
+            res.status(401).json({
+              message: "No order found!"
+            });
+          }
+        });
+      } else {
+        res.status(401).json({
+          message: "No orderDetail found!"
+        });
+      }
+    })
+    .catch(error => {
+      // Handle errors
+      console.error(error);
+      res.status(500).json({
+        message: "Internal server error"
+      });
+    });
+  }
+  
 
 }
 

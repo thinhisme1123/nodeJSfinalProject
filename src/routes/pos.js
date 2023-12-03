@@ -12,5 +12,6 @@ router.post('/checkNumber',getUsername, posControllers.checkPhoneNumber);
 router.post('/createCustomer',getUsername, posControllers.createCustomer);
 router.post('/createOrder',getUsername, posControllers.createOrder);
 router.post('/createInvoice',getUsername, posControllers.createInvoice);
+router.get('/invoice/:id',getUsername, posControllers.showInvoice);
 
 module.exports = router;

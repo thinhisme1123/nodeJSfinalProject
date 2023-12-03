@@ -1,0 +1,45 @@
+<div class="body-container">
+    <div class="grid-container">
+        <div class="header-product">
+            <div class="header-product-left">
+                <h4>Profile</h4>
+                <p>Customer Profile</p>
+            </div>
+        </div>
+        
+        <form action="" method="">
+        <div class="product-list-container">
+            <div class="profile-background">
+                <div class="profile-img">
+                    <img src="/img/logoHPT.jpg" alt="">
+                </div>
+                <div class="profile-info">
+                    <h2>{{customer.customerName}}</h2>
+                    <h6>Customer Details</h6>
+                </div>
+            </div>
+            <div style="margin-left: 50px;" class="create-product-row row">
+                <div class="col create-product-item">
+                    <h6>Name</h6>
+                    <input value="{{customer.customerName}}" type="text" name="customer_name">
+                </div>
+                <div class="col create-product-item">
+                    <h6>Phone number</h6>
+                    <input value="{{customer.phoneNumber}}" type="text" name="phone_number">
+                </div>
+                 <div class="col create-product-item">
+                    <h6>Address</h6>
+                    <input value="{{customer.address}}" type="text" name="address">
+                </div>
+            </div>
+            <div style="margin-left: 50px;" class="create-product-row row">
+                <div class="col create-product-item">
+                    <button class="create-submit-btn" type="submit">Submit</button>  
+                    <a class="create-cancel-btn" href="/customer">Cancel</a>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+    
+</div>

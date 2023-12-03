@@ -5,12 +5,6 @@
                 <h4>Customers List</h4>
                 <p>Manage Customers</p>
             </div>
-            <div class="header-product-right">
-                <a href="/staff/create-staff" class="adding-product-btn">
-                    <i class="fa-solid fa-plus"></i>
-                    <h5>Adding new staff</h5>
-                </a>
-            </div>
         </div>
 
         <div class="product-list-container">
@@ -49,7 +43,7 @@
                                 <td class="product-action">
                                     <a class="product-list-item_info_link" href="/product"><i class="fa-regular fa-eye"></i></a>
                                     {{#if (isAdmin ../globalData.role)}}
-                                            <a class="product-list-item_info_link ml-2" href="/product/edit/{{_id}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a class="product-list-item_info_link ml-2" href="/customer/view/{{_id}}"><i class="fa-solid fa-pen-to-square"></i></a>
                                             <a data-productname="{{productName}}" data-id="{{_id}}" class="delete-product-link product-list-item_info_link ml-2" href="/product/delete/{{_id}}"><i class="fa-solid fa-trash"></i></a>
                                     {{/if}}
                                 </td>

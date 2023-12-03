@@ -98,7 +98,7 @@
                         </div>
                     {{/each}}
                 </div> --}}
-                <table class="table product-table" >
+                <table class="table product-table" id="productTable">
                     <thead >
                         <tr class="profile-header">
                             <th scope="col"><input class="product-checkbox-input" type="checkbox" name="all-products"></th>
@@ -197,6 +197,52 @@
                 $("#confirmModal").modal("hide");
             });
         });
+
+         //hanlde search product box
+        $('#product-search-box').on('input', function() {
+            const searchTerm = $(this).val();
+
+            $.ajax({
+                url: '/product/search',
+                method: 'POST',
+                data: { searchTerm: searchTerm },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    // Display the results
+                    const productTable = $('#productTable');
+                    const tableBody = productTable.find('tbody');
+                    console.log($("#productTable tbody tr").length)
+                    $("#productTable tbody tr").remove()
+                    
+                    data.forEach(function (result) {
+                    // Append a new row for each product
+                    const newRow = `
+                        <tr>
+                            <th scope="row"><input class="product-checkbox-input" type="checkbox" name="products"></th>
+                            <td><img class="product-img" src="${result.image}" alt=""><span style="margin-left:10px;">${result.productName}</span></td>
+                            <td>${result.category}</td>
+                            <td>${result.brand}</td>
+                            <td>${result.price}</td>
+                            <td>${result.quantity}</td>
+                            <td>${result.createdBy}</td>
+                            <td class="product-action">
+                                <a class="product-list-item_info_link" href="/product"><i class="fa-regular fa-eye"></i></a>
+                                {{#if (isAdmin ../globalData.role)}}
+                                        <a class="product-list-item_info_link ml-2" href="/product/edit/${result._id}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a data-productname="${result.productName}" data-id="${result._id}" class="delete-product-link product-list-item_info_link ml-2" href="/product/delete/${result._id}"><i class="fa-solid fa-trash"></i></a>
+                                {{/if}}
+                            </td>
+                        </tr>`;
+
+                    tableBody.append(newRow);
+                    });
+                },
+                error: function (err) {
+                    console.error('Error:', err);
+                }
+            });
+        });      
 
        
     });

@@ -1,0 +1,54 @@
+<div class="invoice-container" style="background-color:#141432; height: 100vh">
+  <div class="row" style="width: 100%; height: 100%">
+    <div class="col-md-6 mt-5" style="padding:10px 40px;">
+      <div class="card" style="background-color:#525280; color:#fff">
+        <div class="card-header">
+          <h2>Invoice Preview (PDF)</h2>
+        </div>
+        <div class="card-body">
+          <!-- Use iframe for PDF display -->
+          <iframe src="/uploads/invoices/invoice_{{order._id}}.pdf" width="100%" height="400px"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mt-5" style="padding: 10px 20px;">
+      <div class="card" style="background-color:#525280; color:#fff">
+        <div class="card-header">
+          <h2>Invoice Details</h2>
+        </div>
+        <div class="card-body">
+          <!-- Invoice details table -->
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody> 
+            {{#each orderDetail}}
+              <tr>
+                <td>{{namePro}}</td>
+                <td>{{amountOrder}}</td>
+                <td>${{pricePro}}</td>
+               <td>${{multiply amountOrder pricePro}}</td>
+              </tr>
+              <!-- Add more rows as needed -->
+              {{/each}}
+            </tbody>
+          </table>
+          <!-- Total, Given Amount, Change -->
+          <div class="text-end" style="float: right">
+            <p><strong style="margin-right: 150px">Quantity:</strong><span style="float: right; color:rgb(21, 255, 0)">{{order.amount}}</span></p>
+            <p><strong>Total:</strong> <span style="float: right;color:rgb(21, 255, 0)">${{order.totalAmount}}</span></p>
+            <p><strong>Given Amount:</strong> <span style="float: right;color:rgb(21, 255, 0)">${{order.givenAmount}}</span></p>
+            <p><strong>Change:</strong> <span style="float: right;color:rgb(21, 255, 0)">${{order.change}}</span></p>
+          </div>
+          <a href="/pos" class="btn btn-primary">Back to POS</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

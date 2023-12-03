@@ -22,6 +22,23 @@ class CustomerControllers {
             });
     }
 
+     // [GET] /customer detail
+     showCustomerDetail(req, res) {
+        const id = req.params.id
+        Customer.findOne({
+            _id: id
+        }).lean()
+            .then(customer => {
+                console.log(customer)
+                    res.render('customer-profile', {userLogin, title: "Customer Profile Page",customer:customer})
+            })
+            .catch((error) => {
+                console.error('Error fetching customer:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+            });
+    }
+
+
 }
 
 module.exports = new CustomerControllers();

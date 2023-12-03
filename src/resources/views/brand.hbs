@@ -1,0 +1,114 @@
+<div class="body-container">
+    <div class="grid-container">
+        <div class="header-product">
+            <div class="header-product-left">
+                <h4>Brands List</h4>
+                <p>Manage Brands</p>
+            </div>
+            <div class="header-product-right">
+                <a href="/brand/create-brand" class="adding-product-btn">
+                    <i class="fa-solid fa-plus"></i>
+                    <h5>Adding new brand</h5>
+                </a>
+            </div>
+        </div>
+
+        <div class="product-list-container">
+            <div class="product-container">
+                <div class="product-filter-icon">
+                    <button class="product-filter-btn"><i class="fa-solid fa-filter"></i></button>
+                </div>
+                <div class="product-search">
+                    <div class="product-search_icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <div class="product-search_box">
+                        <input type="text" id="product-search-box" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="product-file-icon">
+                    <a href="/create-pdf"><i class="fa-solid fa-file-pdf"></i></a>
+                </div>
+                <table class="table product-table" >
+                    <thead >
+                        <tr class="profile-header">
+                            <th scope="col"><input class="product-checkbox-input" type="checkbox" name="all-staffs"></th>
+                            <th scope="col"><i class="fa-solid fa-sort icon-sort"></i>Brand Logo</th>
+                            <th scope="col"><i class="fa-solid fa-sort icon-sort"></i>Brand Name</th>
+                            <th scope="col"><i class="fa-solid fa-sort icon-sort"></i>Category</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each brand}}                        
+                            <tr>
+                                <th scope="row"><input class="product-checkbox-input" type="checkbox" name="staffs"></th>
+                                <td><img class="product-img" src="{{image}}" alt=""></td>
+                                <td>{{brandName}}</td>
+                                 <td>{{category}}</td>
+                                <td class="product-action">
+                                    <a class="product-list-item_info_link" href="/product"><i class="fa-regular fa-eye"></i></a>
+                                    {{#if (isAdmin ../globalData.role)}}
+                                        <a class="product-list-item_info_link ml-2" href="/brand/edit/{{_id}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a data-brandname="{{brandName}}" data-id="{{_id}}" class="delete-brand-link product-list-item_info_link ml-2" href="/brand/delete/{{_id}}"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            {{/if}}
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+    {{!-- Delete modal --}}
+   <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete brand <strong id="brandNameInModal"></strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     $(document).ready(function() {
+          $(".delete-brand-link").on("click", function (e) {
+            e.preventDefault()
+            var brandName = $(this).data("brandname");
+             var brandID = $(this).data("id");
+             console.log(brandID)
+            $("#brandNameInModal").text(brandName);
+            $("#confirmModal").modal("show");
+
+            $("#confirmDelete").on("click", function () {
+                $.ajax({
+                    url: `/brand/delete/${brandID}`,
+                    method: "DELETE",
+                    dataType: "json", 
+                    success: function (data) {            
+                        console.log(data)
+                        window.location.reload()
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", status, error);
+                    }
+                });
+                $("#confirmModal").modal("hide");
+            });
+        });
+
+       
+    });
+</script>

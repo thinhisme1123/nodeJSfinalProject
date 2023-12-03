@@ -1,0 +1,73 @@
+<div class="body-container">
+    <div class="grid-container">
+        <div class="header-product">
+            <div class="header-product-left">
+                <h4>Brand Add</h4>
+                <p>Create new brand</p>
+            </div>
+        </div>
+        <form action="/brand/create-brand" method="post" enctype="multipart/form-data">
+        <div class="product-list-container">
+            <div style="margin-left: 50px;" class="create-product-row row">
+                <div class="col create-product-item">
+                    <h6>Brand Name</h6>
+                    <input type="text" name="brandName">
+                </div>
+                <div class="col create-product-item">
+                    <h6>Category</h6>
+                    <select name="category" id="create-category">
+                        <option value="">Choose Category</option>
+                        <option value="Phone">Phone</option>
+                        <option value="Accessories">Accessories</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-left: 50px;" class="create-product-row row">
+                <div class="col create-product-item">
+                    <h6>Choose Image</h6>
+                    <label for="file-input" class="file-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        Drag and drop a file to upload
+                    </label>
+                    <input type="file" class="custom-file-input" id="file-input" name="image">
+                    <img id="preview-image" style="max-width: 30%; max-height:100%; margin-top: 10px; display: none;">
+                </div>
+            </div>
+            <div style="margin-left: 50px;" class="create-product-row row">
+                <div class="col create-product-item">
+                    <button class="create-submit-btn" type="submit">Submit</button>
+                    <a class="create-cancel-btn" href="/brand">Cancel</a>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+    
+</div>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+ <script>
+      //Name of the file appear on select
+      $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this)
+          .siblings(".file-label")
+          .addClass("selected")
+          .html(fileName);
+
+        // Display the image preview
+        const fileInput = this;
+        const file = fileInput.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const previewImage = $("#preview-image");
+                previewImage.attr("src", e.target.result);
+                previewImage.show();
+            };
+
+            reader.readAsDataURL(file);
+        }
+      });
+</script>

@@ -619,12 +619,13 @@
                     phoneNumber:phoneNumber,
                     products:productCart
                 },
-                dataType: 'text',
+                dataType: 'json',
                 success: function (data) {
                     console.log(data);
             
                     console.log("Create order succes")
                     //move to somewhere
+                    window.location.href = `/pos/invoice/${data.id}`
                     
 
                 },
