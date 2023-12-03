@@ -11,6 +11,6 @@ router.delete('/delete/:id',getUsername, posControllers.deletePOSProduct);
 router.post('/checkNumber',getUsername, posControllers.checkPhoneNumber);
 router.post('/createCustomer',getUsername, posControllers.createCustomer);
 router.post('/createOrder',getUsername, posControllers.createOrder);
-
+router.post('/createInvoice',getUsername, posControllers.createInvoice);
 
 module.exports = router;

@@ -3,6 +3,7 @@
 // cứ truyền thẳng vào
 const Account = require('../models/Account')
 const Product = require('../models/Product')
+const Customer = require('../models/Customer')
 const session = require('express-session')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -13,18 +14,31 @@ var userLogin = false
 class SiteControllers {
 
     // [GET] /home dashboard
-    index(req, res) {
-        if(req.session.user) {
-            res.render('dashboard', {title: "Home Page", userLogin, 
-                                    username: req.session.user.username,
-                                    role:req.session.user.role,
-                                    change:req.session.user.change
-            })
+    async index(req, res) {
+        try {
+            const product = await Product.find().lean();
+            const productAmount = product.length;
+            const customer = await Customer.find().lean();
+            const customerAmount = customer.length;
+    
+            if (req.session.user) {
+                res.render('dashboard', {
+                    title: "Home Page",
+                    userLogin,
+                    username: req.session.user.username,
+                    role: req.session.user.role,
+                    change: req.session.user.change,
+                    productAmount: productAmount,
+                    customerAmount: customerAmount
+                });
+            } else {
+                res.redirect('/login');
+            }
+        } catch (error) {
+            console.error(error);
+            // Handle the error appropriately, e.g., send an error response.
+            res.status(500).send('Internal Server Error');
         }
-        else { 
-            res.redirect('/login')
-        }
-
     }
     // [GET] /login
     showLogin(req,res) {
@@ -135,6 +149,7 @@ class SiteControllers {
             }
         });
     }
+    // [GET] /pos
     showPOS(req,res) {
         Product.find().lean()
             .then(product => {
@@ -145,6 +160,8 @@ class SiteControllers {
                 res.status(500).json({ error: 'Internal Server Error' });
             });
     }
+
+
 }
 
 module.exports = new SiteControllers();

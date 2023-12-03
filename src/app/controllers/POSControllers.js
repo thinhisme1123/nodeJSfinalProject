@@ -4,7 +4,39 @@ const session = require('express-session');
 const Account = require('../models/Account');
 const Order = require('../models/Order');
 const OrderDetail = require('../models/OrderDetail');
+
+const fs = require('fs');
+const PDFDocument = require('pdfkit');
 var userLogin = true
+
+function generateInvoice(invoiceData, filePath) {
+  const doc = new PDFDocument();
+  const stream = fs.createWriteStream(filePath);
+
+  doc.pipe(stream);
+
+  doc.fontSize(18).text('Invoice', { align: 'center' }).moveDown();
+
+  doc
+      .fontSize(12)
+      .text(`Invoice Number: ${invoiceData.invoiceNumber}`)
+      .text(`Date: ${invoiceData.date}`)
+      .text(`Customer: ${invoiceData.customerName}`)
+      .moveDown();
+
+
+  doc.fontSize(18).text('List Items', { align: 'center' }).moveDown();
+  // Iterate over products and add them to the PDF
+  invoiceData.products.forEach(product => {
+      doc.text(`${product.productName}: ${product.quantity} x ${product.price}`);
+  });
+
+  doc.moveDown().text(`Total Amount: ${invoiceData.totalAmount}`);
+  doc.text(`Given Money: ${invoiceData.givenMoney}`);
+  doc.text(`Change: ${invoiceData.change}`);
+
+  doc.end();
+}
 
 //chứa function handler
 class POSControllers {
@@ -175,7 +207,82 @@ class POSControllers {
   }
 
   async createOrder(req, res) {
-    console.log("Create order")
+      console.log("Create order and invoice");
+      const {
+          totalAmountValue,
+          givenMoneyValue,
+          changeValue,
+          totalQuantity,
+          phoneNumber,
+          products
+      } = req.body;
+
+      const order = new Order({
+          phoneNumber: phoneNumber,
+          totalAmount: totalAmountValue,
+          givenAmount: givenMoneyValue,
+          change: changeValue,
+          dateBuy: new Date(),
+          amount: totalQuantity
+      });
+
+      console.log(products);
+
+      const savedOrder = await order.save();
+
+      const productsArray = products.map(product => ({
+          namePro: product.productName,
+          amountOrder: product.quantity,
+          pricePro: product.price
+      }));
+
+      const sharedOrderId = savedOrder._id;
+      const orderDetailsArray = [];
+
+      for (const product of productsArray) {
+          const orderDetail = new OrderDetail({
+              order: sharedOrderId,
+              namePro: product.namePro,
+              amountOrder: product.amountOrder,
+              pricePro: product.pricePro
+          });
+
+          orderDetailsArray.push(orderDetail);
+      }
+
+      const savedOrderDetails = await OrderDetail.insertMany(orderDetailsArray);
+
+      console.log('OrderDetails saved successfully:', savedOrderDetails);
+
+      const currentDate = new Date();
+      const invoiceDate = currentDate.toISOString().split('T')[0];
+
+      // Generate PDF invoice
+      const invoiceData = {
+          invoiceNumber: savedOrder._id,
+          date: invoiceDate,
+          customerName: phoneNumber, // Change this with actual customer name
+          products: savedOrderDetails.map(detail => ({
+              productName: detail.namePro,
+              quantity: detail.amountOrder,
+              price: detail.pricePro
+          })),
+          totalAmount: totalAmountValue,
+          givenMoney: givenMoneyValue,
+          change: changeValue
+      };
+
+      const filePath ='src/public/uploads/invoices/' + `invoice_${savedOrder._id}.pdf`;
+
+      generateInvoice(invoiceData, filePath);
+
+      res.send("OK");
+  }
+  
+
+
+  createInvoice(req,res) {
+    console.log("Create invoice")
     const {
       totalAmountValue,
       givenMoneyValue,
@@ -184,48 +291,7 @@ class POSControllers {
       phoneNumber,
       products
     } = req.body
-    const order = new Order({
-      phoneNumber: phoneNumber,
-      totalAmount: totalAmountValue,
-      givenAmount: givenMoneyValue,
-      change: changeValue,
-      dateBuy: new Date(),
-      amount: totalQuantity
-    });
-    console.log(products)
 
-    const savedOrder = await order.save();
-
-    const productsArray = products.map(product => ({
-      namePro: product.productName,
-      amountOrder: product.quantity,
-      pricePro: product.price
-  }));
-  
-  // Create a shared _id for all OrderDetail instances
-  const sharedOrderId = savedOrder._id;
-  
-  // Array to store multiple OrderDetail instances
-  const orderDetailsArray = [];
-  
-  // Iterate over products and create OrderDetail for each product
-  for (const product of productsArray) {
-      const orderDetail = new OrderDetail({
-          order: sharedOrderId, // Link to the order
-          namePro: product.namePro,
-          amountOrder: product.amountOrder,
-          pricePro: product.pricePro
-      });
-  
-      // Add the OrderDetail instance to the array
-      orderDetailsArray.push(orderDetail);
-  }
-  
-  // Save all OrderDetail instances
-  const savedOrderDetails = await OrderDetail.insertMany(orderDetailsArray);
-  
-  console.log('OrderDetails saved successfully:', savedOrderDetails);
-    res.send("OK")
   }
 
 }

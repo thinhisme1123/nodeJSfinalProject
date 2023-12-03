@@ -9,7 +9,6 @@
                 <div class="box-infor-item_number">
                     <h4>$30202</h4>
                     <p>Total Purchase Due</p>
-                    <p id="username-container" hidden></p>
                 </div>
             </div>
             <div class="col box-infor-item">
@@ -35,11 +34,20 @@
         <div class="row box-infor-container">
             <div class="col box-infor-item" style="background-color: #ff9f43;">
                 <div class="box-infor-item_customer-number">
-                    <h3>100</h3>
+                    <h3>{{customerAmount}}</h3>
                     <p>Customers</p>
                 </div>
                 <div class="box-infor-item_customer-icon">
                     <i class="fa-regular fa-user"></i>
+                </div>
+            </div>
+            <div class="col box-infor-item" style="background-color: #00cfe8;">
+                <div class="box-infor-item_customer-number">
+                    <h3>{{productAmount}}</h3>
+                    <p>Products</p>
+                </div>
+                <div class="box-infor-item_customer-icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
                 </div>
             </div>
             <div class="col box-infor-item" style="background-color: #1b2850;">

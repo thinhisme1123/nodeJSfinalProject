@@ -580,7 +580,7 @@
                 var productId = $(this).data("id");
                 var productName = $(this).data("productname");
                 var price = $(this).data("price");
-                var quantity = $(this).data("quantity");
+                var quantity = $(this).find('.quantity-container').val();
 
                 // Create an object with the extracted data
                 var productData = {
