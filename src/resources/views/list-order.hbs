@@ -1,13 +1,11 @@
 <div class="body-container">
     <div class="grid-container">
-        <div class="header-order">
+        <div class="header-product">
             <div class="header-product-left">
                 <h4>Order List</h4>
                 <p>Manage Order</p>
             </div>
-            
         </div>
-
         <div class="product-list-container">
             <div class="product-container">
                 <div class="product-filter-icon">
@@ -43,10 +41,7 @@
                                     <td>{{change}}</td>
                                     <td>{{dateBuy}}</td>
                                     <td class="product-action">
-                                        <a class="product-list-item_info_link" href="/product"><i class="fa-regular fa-eye"></i></a>
-                                        {{#if (isAdmin ../globalData.role)}}
-                                            <a class="product-list-item_info_link ml-2" href="/order/view/{{_id}}"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        {{/if}}
+                                        <a class="product-list-item_info_link" href="/order/view/{{_id}}"><i class="fa-regular fa-eye"></i></a>
                                     </td>
                                 </tr>
                         {{/each}}

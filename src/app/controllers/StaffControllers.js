@@ -31,7 +31,7 @@ class StaffControllers {
 
         Account.find().lean()
             .then(staff => {
-                    res.render('staff', {userLogin, title: "Staff Page",staff:staff})
+                    res.render('staff', {userLogin, title: "Staff Page",staff:staff,})
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
@@ -44,7 +44,7 @@ class StaffControllers {
     }
     // [POST] /create staff
     async createStaff(req, res) {
-        const { email, role ,change, verified, image } = req.body;
+        const { email, role ,change, verified, image,blocked } = req.body;
         const username = getUsernameFromEmail(email);
     
         console.log('Username:', username);
@@ -184,6 +184,86 @@ class StaffControllers {
             res.status(500).json({ error: 'Internal Server Error' });
           });
     }
+
+    resendEmailStaff(req, res) {
+        const email = req.params.email
+        const username = req.body.username
+        const verificationToken = jwt.sign({ email }, 'thinhisme123', { expiresIn: '1m' });
+        req.session.token = verificationToken
+        req.session.username = username
+        console.log(req.session.username)
+        console.log(req.session.token)
+
+        const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'kieplulanh93@gmail.com', // Replace with your Gmail email address
+            pass: 'deiq qbvp vjtv yatu', // Replace with your Gmail password or an application-specific password
+        },
+        });
+
+        const verificationLink = `http://localhost:3000/verify-account?token=${verificationToken}&username=${username}`;
+        // The link now includes the token as a query parameter
+        
+
+        // Setup email data
+        const mailOptions = {
+        from: 'kieplulanh93@gmail.com', // Sender email address
+        to: email, // Recipient email address
+        subject: 'Account Verification', // Email subject
+        html: `
+                <p>Thank you for creating an account!</p>
+                <p>Please click the button below to verify your account:</p>
+                <a href="${verificationLink}" style="display:inline-block; padding:10px 20px; background-color:#3498db; color:#ffffff; text-decoration:none; border-radius:5px;">Verify Your Account</a>
+                <p>Your username is: <strong>${username}</strong></p>
+                <p>Your temporary password is: <strong>${username}</strong></p>
+                <p>If you didn't create an account, you can ignore this email.</p>
+            `,
+        };
+
+        // Send email
+        transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.error('Error:', error);
+        } else {
+            res.render("create-staff", {userLogin,showAlert:true,code:1, message:"Staff account created success"})
+            console.log('Email sent:', info.response);
+        }
+        });
+    }
+    blockStaff(req, res) {
+        const staffID = req.params.id;
+        const isBlocked = req.body.blocked;
+    
+        let updateFields;
+    
+        if (isBlocked === '1') {
+            console.log('account blocked');
+            updateFields = {
+                blocked: 0,
+            };
+        } else if (isBlocked === '0') {
+            console.log('account not blocked');
+            updateFields = {
+                blocked: 1,
+            };
+        }
+    
+        Account.findByIdAndUpdate(
+            { _id: staffID },
+            { $set: updateFields },
+            { new: true, lean: true }
+        )
+        .then(data => {
+            res.json(data.blocked); // Assuming data has a 'blocked' field
+        })
+        .catch(error => {
+            // Handle errors
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+    }
+    
 }
 
 module.exports = new StaffControllers();

@@ -27,5 +27,7 @@ router.post('/create-staff',upload.single('image'), validator ,getUsername, staf
 router.delete('/delete/:id',getUsername,staffControllers.deleteStaff)
 router.get('/edit/:id',getUsername,staffControllers.showEditStaff)
 router.put('/edit/:id',upload.single('image'),getUsername,staffControllers.editStaff)
+router.post('/resend/:email',getUsername,staffControllers.resendEmailStaff)
+router.post('/block/:id',getUsername,staffControllers.blockStaff)
 
 module.exports = router;

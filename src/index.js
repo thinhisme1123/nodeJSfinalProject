@@ -70,7 +70,14 @@ app.engine(
             },
             multiply(arg1, arg2) {
                 return arg1 * arg2;
-            }
+            },
+            isSent(permission) {
+                return permission === 1;
+            },
+            isBlocked(blocked) {
+                console.log('isBlocked helper called with:', blocked);
+                return blocked === 1;
+            },
         }
     }),
 );

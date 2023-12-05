@@ -5,7 +5,9 @@ const setGlobalVariables = (req, res, next) => {
       email: req.session.user.email,
       role: req.session.user.role,
       change: req.session.user.change,
-      
+      verified: req.session.user.verified,
+      permission:req.session.user.permission,
+      blocked:req.session.user.blocked
     };
     next();
   };

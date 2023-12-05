@@ -10,7 +10,9 @@ const AccountSchema = new Schema({
     role: { type: String },
     image: { type: String },
     change: Number,
-    verified: Number
+    verified: Number,
+    permission: Number,
+    blocked: Number
 });
 
 AccountSchema.plugin(mongooseDelete, { overrideMethods: true });

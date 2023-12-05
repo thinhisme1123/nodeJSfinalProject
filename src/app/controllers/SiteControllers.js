@@ -2,6 +2,7 @@
 // Đối với phiên bản hiện tại của handlebar thì sẽ không cần viết tool chuyển sang object nữa, 
 // cứ truyền thẳng vào
 const Account = require('../models/Account')
+const OrderDetail = require('../models/OrderDetail')
 const Product = require('../models/Product')
 const Customer = require('../models/Customer')
 const session = require('express-session')
@@ -29,7 +30,8 @@ class SiteControllers {
                     role: req.session.user.role,
                     change: req.session.user.change,
                     productAmount: productAmount,
-                    customerAmount: customerAmount
+                    customerAmount: customerAmount,
+                    blocked: req.session.user.blocked
                 });
             } else {
                 res.redirect('/login');
@@ -56,6 +58,7 @@ class SiteControllers {
                     // this if is just for admin account
                     if(password === user.password) {
                         req.session.user = user
+                        console.log(req.session.user.blocked)
                         userLogin = true
                         console.log('success')
                         return res.redirect('/')
@@ -159,6 +162,42 @@ class SiteControllers {
                 console.error('Error fetching products:', error);
                 res.status(500).json({ error: 'Internal Server Error' });
             });
+    }
+
+
+    async showChartToday(req, res) {
+        try {
+            const result = await OrderDetail.aggregate([
+                {
+                    $match: {
+                        // Add any additional filters if needed
+                    }
+                },
+                {
+                    $group: {
+                        _id: { $dateToString: { format: "%Y-%m-%d", date: "$saleDate" } },
+                        totalAmount: { $sum: { $toInt: "$amountOrder" } }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        date: "$_id",
+                        totalAmount: 1
+                    }
+                },
+                {
+                    $sort: {
+                        date: 1
+                    }
+                }
+            ]);
+        
+            res.json(result);
+          } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+          }
     }
 
 

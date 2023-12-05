@@ -7,6 +7,7 @@ const siteControllers = require('../app/controllers/SiteControllers');
 router.get('/login',siteControllers.showLogin);
 router.post('/login', siteControllers.login)
 router.get('/',siteControllers.index);
+router.get('/view/today',siteControllers.showChartToday);
 router.get('/logout',siteControllers.logout);
 router.get('/profile',getUsername,siteControllers.showProfile);
 router.get('/change-password',siteControllers.showChangePW);

@@ -217,15 +217,20 @@
 
 .product-list-item_info_link_pos,
 .product-list-item_delete_link_pos,
-.product-list-item_info_link {
+.product-list-item_info_link,
+.staff-send-email_info_link {
   text-decoration: none;
   color: var(--text-color); }
 
 .product-list-item_info_link_pos:hover,
 .product-list-item_delete_link_pos:hover,
-.product-list-item_info_link:hover {
+.product-list-item_info_link:hover,
+.staff-send-email_info_link:hover {
   opacity: 0.6;
   color: var(--text-color); }
+
+.block-staff_link.blocked {
+  color: red; }
 
 .product-list-item_info h6 {
   margin-left: 5px;
