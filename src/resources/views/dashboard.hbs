@@ -2,32 +2,32 @@
 <div class="dashboard-container">
     <div class="grid-container">
         <div class="row box-infor-container">
-            <div class="col box-infor-item">
+            <div class="col box-infor-item" style="background-color: rgb(255, 55, 195);">
                 <div class="box-infor-item_icon">
-                    <i class="fa-solid fa-cart-shopping"></i>
+                    <i style="font-size: 30px; color:rgb(255, 255, 255);" class="fa-solid fa-person"></i>
                 </div>
-                <div class="box-infor-item_number">
-                    <h4>$30202</h4>
-                    <p>Total Purchase Due</p>
+                <div class="box-infor-item_number" style="color: #fff;">
+                    <h4>{{totalEmployees}}</h4>
+                    <p>Employees</p>
                 </div>
             </div>
-            <div class="col box-infor-item">
+            <div class="col box-infor-item" style="background-color: rgb(115, 55, 255);">
                 <div class="box-infor-item_icon">
-                    <i class="fa-solid fa-arrows-down-to-line"></i>
+                    <i style="font-size: 30px; color:rgb(61, 255, 103);" class="fa-solid fa-money-check-dollar"></i>
                 </div>
-                <div class="box-infor-item_number">
-                    <h4>$30202</h4>
+                <div class="box-infor-item_number"  style="color: #fff;">
+                    <h4>${{totalSaleAmount}}</h4>
                     <p>Total Sale Amount </p>
                 </div>
                 
             </div>
-            <div class="col box-infor-item">
+            <div class="col box-infor-item" style="background-color: rgb(231, 82, 82);">
                 <div class="box-infor-item_icon">
-                    <i class="fa-solid fa-arrows-down-to-line"></i>
+                    <i style="font-size: 30px; color:rgb(214, 211, 21);" class="fa-solid fa-tags"></i>
                 </div>
-                <div class="box-infor-item_number">
-                    <h4>$30202</h4>
-                    <p>Total Sale Amount</p>
+                <div class="box-infor-item_number" style="color: #fff;">
+                    <h4>{{brandAmount}}</h4>
+                    <p>Brands</p>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
             </div>
             <div class="col box-infor-item" style="background-color: #1b2850;">
                 <div class="box-infor-item_customer-number">
-                    <h3>100</h3>
+                    <h3>{{orderAmount}}</h3>
                     <p>Purchase Invoice</p>
                 </div>
                 <div class="box-infor-item_customer-icon">
@@ -61,7 +61,7 @@
             </div>
             <div class="col box-infor-item" style="background-color: #28c76f;">
                 <div class="box-infor-item_customer-number">
-                    <h3>100</h3>
+                    <h3>{{orderAmount}}</h3>
                     <p>Sale Invoice</p>
                 </div>
                 <div class="box-infor-item_customer-icon">
@@ -107,10 +107,10 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">You have been banned!</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">You have been blocked!</h5>
       </div>
       <div class="modal-body">
-        Your account have been banned by admin, please contact admin to recovery you account!
+        Your account have been blocked by admin, please contact admin to recovery you account!
       </div>
       <div class="modal-footer">
         <a href="/logout" type="button" class="btn btn-danger">Login Page</a>
@@ -148,24 +148,58 @@
             method: "GET",
             dataType: 'json',
             success: function (data) {
-                var x = d3.scale.ordinal()
-                .domain(data.map(d => d.date))
-                .rangeBands([0, 420]);
 
-                var y = d3.scale.linear()
-                .domain([0, d3.max(data, d => d.totalAmount)])
-                .range([0, 200]);
+            var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+            width = 420 - margin.left - margin.right,
+            height = 200 - margin.top - margin.bottom;
+            var x = d3.scale.ordinal()
+            .domain(data.map(d => d.date))
+            .rangeBands([0, width]);
 
-                var barWidth = 100 / data.length;
+            var y = d3.scale.linear()
+            .domain([0, d3.max(data, d => d.totalAmount)])
+            .range([0, height]);
+
+           var xAxis = d3.axisBottom()
+            .scale(x);
+
+            var yAxis = d3.axisLeft()
+            .scale(y);
+
+            d3.select("#chart").attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            var barWidth = width / data.length;
+
+            d3.select("#chart").append("text")
+            .attr("class", "x label")
+            .attr("text-anchor", "end")
+            .attr("x", width)
+            .attr("y", height + margin.bottom - 10)
+            .text("Date")
+            .style("color", "#fff");
+
+            d3.select("#chart").append("text")
+            .attr("class", "y label")
+            .attr("text-anchor", "end")
+            .attr("y", -margin.left + 10)
+            .attr("dy", ".75em")
+            .attr("transform", "rotate(-90)")
+            .text("Total Amount")
+            .style("color", "#fff");
 
               d3.select("#chart")
                 .selectAll("div")
                 .data(data)
                 .enter().append("div")
+                 .attr("y", d => y(d.totalAmount))
                 .style("height", d => y(d.totalAmount) + "px")
+                .attr("x", d => x(d.date))
                 .style("width", barWidth + "%")
                 .style("margin-right", "5px")
-                .text(d => `Total sold product amount: ${d.totalAmount}`);
+                .text(d => `${d.totalAmount}`);
             },
             error: function (xhr, status, error) {
                 console.error("Error:", status, error);

@@ -5,6 +5,8 @@ const Account = require('../models/Account')
 const OrderDetail = require('../models/OrderDetail')
 const Product = require('../models/Product')
 const Customer = require('../models/Customer')
+const Order = require('../models/Order')
+const Brand = require('../models/Brand')
 const session = require('express-session')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -17,11 +19,29 @@ class SiteControllers {
     // [GET] /home dashboard
     async index(req, res) {
         try {
+            //calcualate the data to load to the dashboard
             const product = await Product.find().lean();
             const productAmount = product.length;
             const customer = await Customer.find().lean();
             const customerAmount = customer.length;
-    
+            const order = await Order.find().lean();
+            const orderAmount = order.length;
+            const brand = await Brand.find().lean();
+            const brandAmount = brand.length;
+            const account = await Account.find().lean();
+
+            let totalSaleAmount = 0;
+            //bất đông bộ, block code vòng lặp tính toán sẽ phải chạy xong thì mới lụm code tiếp thep
+            // solution: phải dùng await để cho vòng lạp chạy xong rồi mới lụm
+            order.forEach(e => {
+                totalSaleAmount += Number(e.totalAmount);
+            });
+
+            const totalEmployees = account.filter(e => {
+                return e.role === 'staff';
+            }).length;
+
+
             if (req.session.user) {
                 res.render('dashboard', {
                     title: "Home Page",
@@ -31,6 +51,10 @@ class SiteControllers {
                     change: req.session.user.change,
                     productAmount: productAmount,
                     customerAmount: customerAmount,
+                    orderAmount: orderAmount,
+                    totalSaleAmount: totalSaleAmount,
+                    brandAmount: brandAmount,
+                    totalEmployees: totalEmployees,
                     blocked: req.session.user.blocked
                 });
             } else {
@@ -167,7 +191,7 @@ class SiteControllers {
 
     async showChartToday(req, res) {
         try {
-            const result = await OrderDetail.aggregate([
+            const result = await Order.aggregate([
                 {
                     $match: {
                         // Add any additional filters if needed
@@ -175,8 +199,8 @@ class SiteControllers {
                 },
                 {
                     $group: {
-                        _id: { $dateToString: { format: "%Y-%m-%d", date: "$saleDate" } },
-                        totalAmount: { $sum: { $toInt: "$amountOrder" } }
+                        _id: { $dateToString: { format: "%Y-%m-%d", date: "$dateBuy" } },
+                        totalAmount: { $sum: { $toInt: "$amount" } }
                     }
                 },
                 {
@@ -192,7 +216,7 @@ class SiteControllers {
                     }
                 }
             ]);
-        
+            console.log(result)
             res.json(result);
           } catch (error) {
             console.error(error);
