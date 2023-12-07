@@ -2,6 +2,8 @@
 // Đối với phiên bản hiện tại của handlebar thì sẽ không cần viết tool chuyển sang object nữa, 
 // cứ truyền thẳng vào
 const Account = require('../models/Account')
+const Order = require('../models/Order')
+const OrderDetail = require('../models/OrderDetail')
 const Customer = require('../models/Customer')
 const session = require('express-session')
 var userLogin = true
@@ -36,6 +38,38 @@ class CustomerControllers {
                 console.error('Error fetching customer:', error);
                 res.status(500).json({ error: 'Internal Server Error' });
             });
+    }
+    showHistory(req,res) {
+        //search and load order for this page 
+        res.render('listHistoryCus',{userLogin, title: "Customer History Page"})
+    }
+
+     // [POST] /search customer history
+    searchHistory(req, res) {
+        const {
+        searchTerm
+        } = req.body;
+        console.log(searchTerm)
+        Order.find({
+        $or: [{
+            phoneNumber: {
+                $regex: searchTerm,
+                $options: 'i'
+            }
+            }
+        ]
+        }).then(orders => {
+            if(orders) {
+                res.json(orders)
+            } else {
+                res.json({})
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching customer history:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+
     }
 
 

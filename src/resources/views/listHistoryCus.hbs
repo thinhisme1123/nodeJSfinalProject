@@ -1,0 +1,124 @@
+<div class="body-container">
+    <div class="grid-container">
+        <div class="header-product">
+            <div class="header-product-left">
+                <h4>Cusomer History List</h4>
+                <p>Manage History Purchased</p>
+            </div>
+        </div>
+        <div class="product-list-container">
+            <div class="product-container">
+                <div class="product-filter-icon">
+                    <button class="product-filter-btn"><i class="fa-solid fa-filter"></i></button>
+                </div>
+                <div class="product-search">
+                    <div class="product-search_icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <div class="product-search_box">
+                        <input type="text" id="product-search-box" placeholder="Search phone number...">
+                    </div>
+                </div>
+                <table class="table product-table" id="productTable">
+                    <thead>
+                        <tr class="profile-header">
+                            <th scope="col"><input class="product-checkbox-input" type="checkbox" name="all-staffs"></th>
+                            <th scope="col"><i class="fa-solid fa-sort icon-sort"></i>OrderID</th>
+                            <th scope="col"><i class="fa-solid fa-sort icon-sort"></i>Total-Amount</th>
+                            <th scope="col"><i class="fa-solid fa-sort icon-sort"></i>Given-Amount</th>
+                            <th scope="col"><i class="fa-solid fa-sort icon-sort"></i>Change</th>
+                            <th scope="col"><i class="fa-solid fa-sort icon-sort"></i>Date Buy</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {{!-- {{#each order}}
+                                <tr>
+                                    <th scope="row"><input class="product-checkbox-input" type="checkbox" name="staffs"></th>
+                                    <td><span style="margin-left:10px;">{{_id}}</span></td>
+                                    <td>{{totalAmount}}</td>
+                                    <td>{{givenAmount}}</td>
+                                    <td>{{change}}</td>
+                                    <td>{{dateBuy}}</td>
+                                    <td class="product-action">
+                                        <a class="product-list-item_info_link" href="/order/view/{{_id}}"><i class="fa-regular fa-eye"></i></a>
+                                    </td>
+                                </tr>
+                        {{/each}} --}}
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+
+        <div class="modal fade" id="blockNoticeModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">No history found</h5>
+                    </div>
+                    <div class="modal-body">
+                        Please check if phone number is valid. Then search again!
+                    </div>
+                   <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+             //hanlde search product box
+            $('#product-search-box').on('change', function() {
+                const searchTerm = $(this).val();
+                if(searchTerm === '') {
+                     $("#productTable tbody tr").remove()
+                } else {
+                       $.ajax({
+                        url: '/customer/history/search',
+                        method: 'POST',
+                        data: { searchTerm: searchTerm },
+                        dataType: 'json',
+                        success: function (data) {
+                            if(data.length !== 0) {
+                                console.log(data)
+                                // Display the results
+                                const productTable = $('#productTable');
+                                const tableBody = productTable.find('tbody');
+                                console.log($("#productTable tbody tr").length)
+                                $("#productTable tbody tr").remove()
+                                
+                                data.forEach(function (result) {
+                                // Append a new row for each product
+                                const newRow = `
+                                    <tr>
+                                        <th scope="row"><input class="product-checkbox-input" type="checkbox" name="staffs"></th>
+                                        <td><span style="margin-left:10px;">${result._id}</span></td>
+                                        <td>${result.totalAmount}</td>
+                                        <td>${result.givenAmount}</td>
+                                        <td>${result.change}</td>
+                                        <td>${result.dateBuy}</td>
+                                        <td class="product-action">
+                                            <a class="product-list-item_info_link" href="/order/view/${result._id}"><i class="fa-regular fa-eye"></i></a>
+                                        </td>
+                                    </tr>`;
+
+                                tableBody.append(newRow);
+                                });
+                            } else {
+                                $("#productTable tbody tr").remove()
+                                $('#blockNoticeModal').modal('show');
+                            }
+                        
+                        },
+                        error: function (err) {
+                            console.error('Error:', err);
+                        }
+                    });
+                }
+             
+            });      
+        })
+    </script>

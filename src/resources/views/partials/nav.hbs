@@ -42,35 +42,46 @@
             </div>
         </div>
         {{!-- Staff section --}}
-        <div class="nav-item-container">
-            <h4 class="nav-item-header">Sales People</h4>
-            <div class="nav-item">
-                <a class="nav-item_link" href="/staff">
-                    <i class="fa-solid fa-box"></i>
-                    <h3>Employees</h3>
-                </a>
-            </div>
-            {{#if globalData.role}}
-                {{#if (isAdmin globalData.role)}}
+        {{!-- this nav section for dashboard page --}}
+        {{#if globalData.role}}
+            {{#if (isAdmin globalData.role)}}
+                <div class="nav-item-container">
+                    <h4 class="nav-item-header">Sales People</h4>
+                    <div class="nav-item">
+                        <a class="nav-item_link" href="/staff">
+                            <i class="fa-solid fa-box"></i>
+                            <h3>Employees</h3>
+                        </a>
+                    </div>
                     <div class="nav-item">
                         <a class="nav-item_link" href="/staff/create-staff">
                             <i class="fa-solid fa-plus"></i>
                             <h3>Create Employees</h3>
                         </a>
                     </div>
-                {{/if}}
+                </div>
             {{/if}}
-            {{#if username}}
-                {{#if (isAdmin username)}}
+        {{/if}}
+        {{!-- this nav section for the rest page --}}
+        {{#if username}}
+            {{#if (isAdmin username)}}
+                <div class="nav-item-container">
+                    <h4 class="nav-item-header">Sales People</h4>
+                    <div class="nav-item">
+                        <a class="nav-item_link" href="/staff">
+                            <i class="fa-solid fa-box"></i>
+                            <h3>Employees</h3>
+                        </a>
+                    </div>
                     <div class="nav-item">
                         <a class="nav-item_link" href="/staff/create-staff">
                             <i class="fa-solid fa-plus"></i>
                             <h3>Create Employees</h3>
                         </a>
                     </div>
-                {{/if}}
+                </div>
             {{/if}}
-        </div>
+        {{/if}}
         {{!-- sale section --}}
         <div class="nav-item-container">
             <h4 class="nav-item-header">Sales</h4>
@@ -89,7 +100,7 @@
         </div>
         {{!-- People section --}}
         <div class="nav-item-container">
-            <h4 class="nav-item-header">People</h4>
+            <h4 class="nav-item-header">Cusomer</h4>
             <div class="nav-item">
                 <a class="nav-item_link" href="/customer">
                     <i class="fa-solid fa-box"></i>
@@ -97,9 +108,9 @@
                 </a>
             </div>
             <div class="nav-item">
-                <a class="nav-item_link" href="/brand">
+                <a class="nav-item_link" href="/customer/history">
                     <i class="fa-solid fa-box"></i>
-                    <h3>Brand</h3>
+                    <h3>History</h3>
                 </a>
             </div>
         </div>

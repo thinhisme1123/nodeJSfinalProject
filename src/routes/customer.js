@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const getUsername = require('../app/middlewares/setGlobaleUsername')
-
+const checkBlockedAccount = require('../app/middlewares/checkBlockedAccount')
+const checkRoleAccount = require('../app/middlewares/checkRoleAccount')
 
 const customerControllers = require('../app/controllers/CustomerControllers');
 
-router.get('/',getUsername, customerControllers.index);
-router.get('/view/:id',getUsername, customerControllers.showCustomerDetail);
+router.get('/',checkBlockedAccount,getUsername, customerControllers.index);
+router.get('/history',checkBlockedAccount,getUsername, customerControllers.showHistory);
+router.post('/history/search',getUsername, customerControllers.searchHistory);
+router.get('/view/:id',checkBlockedAccount,getUsername, customerControllers.showCustomerDetail);
 
 module.exports = router;

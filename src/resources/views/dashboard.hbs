@@ -83,7 +83,7 @@
   Launch demo modal
 </button>
 
-<!-- Modal -->
+<!-- Modal remind user changing password-->
 {{!-- Ngăn người dùng click vào vùng xung quanh của modal là thuộc tính data-backdrop="static" --}}
 <div class="modal fade" id="exampleModalCenter" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -101,7 +101,7 @@
   </div>
 </div>
 </div>
-<!-- Modal -->
+<!-- Modal notice banned -->
 {{!-- Thông báo staff đã bị cấm --}}
 <div class="modal fade" id="blockNoticeModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -194,7 +194,7 @@
                 .selectAll("div")
                 .data(data)
                 .enter().append("div")
-                 .attr("y", d => y(d.totalAmount))
+                .attr("y", d => y(d.totalAmount))
                 .style("height", d => y(d.totalAmount) + "px")
                 .attr("x", d => x(d.date))
                 .style("width", barWidth + "%")

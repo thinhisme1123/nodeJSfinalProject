@@ -94,6 +94,22 @@
         </div>
     </div>
 </div>
+
+<!-- Modal noticeSuccessResendEmail-->
+{{!-- Ngăn người dùng click vào vùng xung quanh của modal là thuộc tính data-backdrop="static" --}}
+<div class="modal fade" id="noticeSuccessResendEmail" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Success Message</h5>
+      </div>
+      <div class="modal-body bg-success">
+        Resend email successfully!
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 <script>
     $(document).ready(function() {
         $('input[name="all-staffs"]').change(function() {
@@ -147,13 +163,15 @@
                 },
                 success: function (data) {            
                     console.log(data)
-                    window.location.reload()
+                    $('#noticeSuccessResendEmail').modal('show')
+                    setTimeout(() => {
+                        $('#noticeSuccessResendEmail').modal('hide')
+                    },3000)
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", status, error);
                 }
             });
-            $("#confirmModal").modal("hide");
         });
         //block staff account
         $(".block-staff_link").on("click", function (e) {

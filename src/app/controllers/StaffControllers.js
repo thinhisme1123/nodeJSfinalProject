@@ -223,12 +223,12 @@ class StaffControllers {
 
         // Send email
         transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.error('Error:', error);
-        } else {
-            res.render("create-staff", {userLogin,showAlert:true,code:1, message:"Staff account created success"})
-            console.log('Email sent:', info.response);
-        }
+            if (error) {
+                console.error('Error:', error);
+            } else {
+                res.json({message:'ok'})
+                console.log('Email sent:', info.response);
+            }
         });
     }
     blockStaff(req, res) {

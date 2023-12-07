@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const getUsername = require('../app/middlewares/setGlobaleUsername')
 const brandControllers = require('../app/controllers/BrandControllers');
+const checkBlockedAccount = require('../app/middlewares/checkBlockedAccount')
+const checkRoleAccount = require('../app/middlewares/checkRoleAccount')
 const multer  = require('multer')
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -16,10 +18,10 @@ const upload = multer({ storage: storage });
 
 
 
-router.get('/',getUsername, brandControllers.index);
-router.get('/create-brand',getUsername, brandControllers.showCreateBrand);
+router.get('/',checkBlockedAccount,getUsername, brandControllers.index);
+router.get('/create-brand',checkBlockedAccount,getUsername, brandControllers.showCreateBrand);
 router.post('/create-brand',upload.single('image'),getUsername, brandControllers.CreateBrand);
-router.get('/edit/:id',upload.single('image'),getUsername, brandControllers.showEditBrand);
+router.get('/edit/:id',checkBlockedAccount,upload.single('image'),getUsername, brandControllers.showEditBrand);
 router.put('/edit/:id',upload.single('image'),getUsername, brandControllers.EditBrand);
 router.delete('/delete/:id',getUsername, brandControllers.deleteBrand);
 

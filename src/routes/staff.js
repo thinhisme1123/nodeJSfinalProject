@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const {check, validationResult } = require('express-validator')
 const getUsername = require('../app/middlewares/setGlobaleUsername')
+const checkBlockedAccount = require('../app/middlewares/checkBlockedAccount')
+const checkRoleAccount = require('../app/middlewares/checkRoleAccount')
 
 const staffControllers = require('../app/controllers/StaffControllers');
 const validator = [
@@ -21,11 +23,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-router.get('/',getUsername, staffControllers.index);
-router.get('/create-staff',getUsername, staffControllers.createStaffInterface);
+
+router.get('/',checkBlockedAccount,checkRoleAccount,getUsername, staffControllers.index);
+router.get('/create-staff',checkBlockedAccount,checkRoleAccount,getUsername, staffControllers.createStaffInterface);
 router.post('/create-staff',upload.single('image'), validator ,getUsername, staffControllers.createStaff);
 router.delete('/delete/:id',getUsername,staffControllers.deleteStaff)
-router.get('/edit/:id',getUsername,staffControllers.showEditStaff)
+router.get('/edit/:id',checkBlockedAccount,checkRoleAccount,getUsername,staffControllers.showEditStaff)
 router.put('/edit/:id',upload.single('image'),getUsername,staffControllers.editStaff)
 router.post('/resend/:email',getUsername,staffControllers.resendEmailStaff)
 router.post('/block/:id',getUsername,staffControllers.blockStaff)
