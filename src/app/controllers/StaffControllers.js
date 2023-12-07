@@ -31,7 +31,7 @@ class StaffControllers {
 
         Account.find().lean()
             .then(staff => {
-                    res.render('staff', {userLogin, title: "Staff Page",staff:staff,})
+                res.render('staff', {userLogin, title: "Staff Page",staff:staff,})
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
@@ -174,10 +174,16 @@ class StaffControllers {
         )
           .then(updatedStaff => {
             if (!updatedStaff) {
+                console.log(updatedStaff)
               return res.status(404).json({ error: 'Staff not found' });
             }
+            else if(updatedStaff.role === 'admin') {
+                res.redirect('/staff/admin');
+            }
+            else {
+                res.redirect('/staff')
+            }
             // Successfully updated, send the updated product in the response
-            res.redirect('/staff')
           })
           .catch(error => {
             console.error('Error updating staff:', error);
@@ -262,6 +268,47 @@ class StaffControllers {
             console.error(error);
             res.status(500).json({ error: 'Internal Server Error' });
         });
+    }
+
+      // [POST] /search staff
+      searchStaff(req, res) {
+        const {
+        searchTerm
+        } = req.body;
+        console.log(searchTerm)
+        Account.find({
+        $or: [{
+            username: {
+                $regex: searchTerm,
+                $options: 'i'
+            }
+            }
+        ]
+        }).then(account => {
+            if(account) {
+                res.json(account)
+            } else {
+                res.json({})
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching staff:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+
+    }
+    showAdmin(req,res) {
+        console.log(req.session.user)
+
+        Account.find().lean()
+            .then(admin => {
+                console.log(admin.role)
+                res.render('admin', {userLogin, title: "Admin Page",admin:admin,})
+            })
+            .catch((error) => {
+                console.error('Error fetching products:', error);
+                res.status(500).json({ error: 'Internal Server Error' });
+            });
     }
     
 }

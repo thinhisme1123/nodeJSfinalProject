@@ -353,10 +353,10 @@
   background-image: linear-gradient(to right, #ed5d53, #f5784d, #fe9a45); }
 
 .profile-img img {
-  height: 60px;
-  width: 60px;
+  height: 80px;
+  width: 80px;
   margin-left: 100px;
-  margin-top: 30px;
+  margin-top: 15px;
   border-radius: 50%; }
 
 .profile-info {

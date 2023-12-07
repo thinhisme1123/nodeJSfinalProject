@@ -46,6 +46,7 @@ class SiteControllers {
                 res.render('dashboard', {
                     title: "Home Page",
                     userLogin,
+                    id:req.session.user._id.toString(),
                     username: req.session.user.username,
                     role: req.session.user.role,
                     change: req.session.user.change,
@@ -82,6 +83,9 @@ class SiteControllers {
                     // this if is just for admin account
                     if(password === user.password) {
                         req.session.user = user
+                        console.log('------------')
+                        console.log(req.session.user._id.toString())
+                        console.log('------------')
                         console.log(req.session.user.blocked)
                         userLogin = true
                         console.log('success')
@@ -121,7 +125,22 @@ class SiteControllers {
     }
      // [GET] /profile
     showProfile(req,res) {
-        res.render('profile', {title: "Profile Page", userLogin})
+        const id = req.params.id
+        console.log('------------------')
+        console.log(id)
+        console.log('------------------')
+        Account.findOne({
+            _id:id
+        }).lean()
+        .then(account => {
+            console.log(account)
+            res.render('profile', {title: "Profile Page", userLogin, account:account})
+        })
+        .catch((error) => {
+            console.error('Error fetching accounts:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+        
     }
     // [GET] /changepassword
     showChangePW(req,res) {

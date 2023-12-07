@@ -550,10 +550,11 @@
 
             if(totalAmountValue < givenMoney) {
                 changeValue.val(changeAmount)
-
+                noticeMessage.css('display','none')
             }
             else if(totalAmountValue === givenMoney) {
                 changeValue.val(0.00)
+                noticeMessage.css('display','none')
             }
             else{
                 //error the money is not enogh

@@ -2,13 +2,13 @@
     <div class="grid-container">
         <div class="header-product">
             <div class="header-product-left">
-                <h4>Staff List</h4>
-                <p>Manage Staff</p>
+                <h4>Admin List</h4>
+                <p>Manage Admin</p>
             </div>
             <div class="header-product-right">
                 <a href="/staff/create-staff" class="adding-product-btn">
                     <i class="fa-solid fa-plus"></i>
-                    <h5>Adding new staff</h5>
+                    <h5>Adding new admin</h5>
                 </a>
             </div>
         </div>
@@ -40,8 +40,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each staff}}
-                            {{#if (isStaff role)}}
+                        {{#each admin}}
+                            {{#if (isAdmin role)}}
                                 <tr>
                                     <th scope="row"><input class="product-checkbox-input" type="checkbox" name="staffs"></th>
                                     <td><img class="staff-img" src="{{image}}" alt=""><span style="margin-left:10px;">{{username}}</span></td>
@@ -52,15 +52,8 @@
                                         {{#if (isSent ../globalData.permission)}}
                                             <a data-email="{{email}}" data-username="{{username}}" class="staff-send-email_info_link ml-2" href="/staff/resend/{{email}}"><i class="fa-solid fa-envelope-circle-check"></i></a>
                                         {{/if}}
-                                        {{#if (isAdmin ../globalData.role)}}
-                                            {{#if (isBlocked blocked)}}
-                                                <a class="product-list-item_info_link block-staff_link blocked ml-2" data-blocked="{{blocked}}" data-id="{{_id}}" href="/staff/block/{{_id}}"><i class="fa-solid fa-lock"></i></a>
-                                            {{else}}
-                                                <a class="product-list-item_info_link block-staff_link ml-2" data-blocked="{{blocked}}" data-id="{{_id}}" href="/staff/block/{{_id}}"><i class="fa-solid fa-lock-open"></i></a>
-                                            {{/if}}
-                                            <a class="product-list-item_info_link ml-2" href="/staff/edit/{{_id}}"><i class="fa-solid fa-pen-to-square"></i></a>
-                                            <a data-staffname="{{username}}" data-id="{{_id}}" class="delete-staff-link product-list-item_info_link ml-2" href="/staff/delete/{{_id}}"><i class="fa-solid fa-trash"></i></a>
-                                        {{/if}}
+                                        <a class="product-list-item_info_link ml-2" href="/staff/edit/{{_id}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a data-staffname="{{username}}" data-id="{{_id}}" class="delete-staff-link product-list-item_info_link ml-2" href="/staff/delete/{{_id}}"><i class="fa-solid fa-trash"></i></a>
                                     </td>
                                 </tr>
                             {{/if}}
@@ -216,36 +209,6 @@
                 }
             });
         })
-
-        //block staff account for the original button
-        $(".block-staff_link").on("click", function (e) {
-            e.preventDefault()   
-            console.log("List button") 
-            var staffID = $(this).data("id");
-            const isBLocked = $(this).data("blocked");
-            const blockBtn = $(this);
-            console.log(isBLocked)
-            
-            
-            $.ajax({
-                url: `/staff/block/${staffID}`,
-                method: "POST",
-                dataType: "json",
-                data: {
-                    blocked:isBLocked
-                },
-                success: function (data) {         
-                    
-                    console.log(data)
-                    //blockBtn.toggleClass("blocked");
-                    blockBtn.data("blocked", data);
-                    window.location.reload()
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error:", status, error);
-                }
-            });
-        });
 
         //hanlde search staff box
         $('#product-search-box').on('change', function() {

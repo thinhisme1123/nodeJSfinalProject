@@ -11,7 +11,7 @@ router.post('/login', siteControllers.login)
 router.get('/',siteControllers.index);
 router.get('/view/today',siteControllers.showChartToday);
 router.get('/logout',siteControllers.logout);
-router.get('/profile',checkBlockedAccount,getUsername,siteControllers.showProfile);
+router.get('/profile/:id',checkBlockedAccount,getUsername,siteControllers.showProfile);
 router.get('/change-password',checkBlockedAccount,siteControllers.showChangePW);
 router.post('/changepassword',siteControllers.changePW);
 router.get('/verify-account',checkBlockedAccount,siteControllers.verifyStaff);

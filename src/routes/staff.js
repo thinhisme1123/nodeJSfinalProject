@@ -32,5 +32,7 @@ router.get('/edit/:id',checkBlockedAccount,checkRoleAccount,getUsername,staffCon
 router.put('/edit/:id',upload.single('image'),getUsername,staffControllers.editStaff)
 router.post('/resend/:email',getUsername,staffControllers.resendEmailStaff)
 router.post('/block/:id',getUsername,staffControllers.blockStaff)
+router.post('/search',getUsername,staffControllers.searchStaff)
+router.get('/admin',getUsername,staffControllers.showAdmin)
 
 module.exports = router;

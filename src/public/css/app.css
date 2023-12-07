@@ -166,7 +166,7 @@
 
 .navigation-container {
   position: fixed;
-  top: 5px;
+  top: 0px;
   background-color: #141432;
   width: 75px;
   color: #8ea0af;

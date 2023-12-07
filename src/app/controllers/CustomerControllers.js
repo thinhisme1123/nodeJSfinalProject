@@ -72,6 +72,34 @@ class CustomerControllers {
 
     }
 
+      // [POST] /search customer history
+      searchCustomer(req, res) {
+        const {
+        searchTerm
+        } = req.body;
+        console.log(searchTerm)
+        Customer.find({
+        $or: [{
+            phoneNumber: {
+                $regex: searchTerm,
+                $options: 'i'
+            }
+            }
+        ]
+        }).then(customer => {
+            if(customer) {
+                res.json(customer)
+            } else {
+                res.json({})
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching customer:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+
+    }
+
 
 }
 

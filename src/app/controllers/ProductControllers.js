@@ -74,7 +74,7 @@ class ProductControllers {
     }
     // [POST] /create product
     createProduct(req,res) {
-        const { productName, category, brand, price, description, quantity, createdBy, image } = req.body;
+        const { productName, category, brand,importPrice,  price,description, quantity, createdBy, image } = req.body;
         console.log(productName)
         const imageUrl = req.file ? `/uploads/products/${req.file.filename}` : null;
 
@@ -82,6 +82,7 @@ class ProductControllers {
             productName,
             category,
             brand,
+            importPrice,
             price,
             description,
             quantity,

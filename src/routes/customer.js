@@ -9,6 +9,7 @@ const customerControllers = require('../app/controllers/CustomerControllers');
 router.get('/',checkBlockedAccount,getUsername, customerControllers.index);
 router.get('/history',checkBlockedAccount,getUsername, customerControllers.showHistory);
 router.post('/history/search',getUsername, customerControllers.searchHistory);
+router.post('/search',getUsername, customerControllers.searchCustomer);
 router.get('/view/:id',checkBlockedAccount,getUsername, customerControllers.showCustomerDetail);
 
 module.exports = router;

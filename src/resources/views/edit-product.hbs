@@ -48,13 +48,9 @@
                     <h6>Quantity</h6>
                     <input type="text" name="quantity" value="{{product.quantity}}">
                 </div>
-                <div class="col create-product-item">
+                <div hidden class="col create-product-item">
                     <h6>Create by</h6>
-                    <select name="createdBy" id="create-by">
-                        <option value="">Choose People</option>
-                        <option value="Admin" {{#equals product.createdBy 'Admin'}}selected{{/equals}}>Admin</option>
-                        <option value="Staff" {{#equals product.createdBy 'Staff'}}selected{{/equals}}>Staff</option>
-                    </select>
+                    <input type="text" name="createdBy" value="Admin">
                 </div>
             </div>
             <div style="margin-left: 50px;" class="create-product-row row">

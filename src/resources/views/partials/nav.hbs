@@ -4,6 +4,7 @@
             <img class="nav-icon_img" src="/img/logoHPT.jpg" alt="">
             <span class="nav-item-header">HPT POS</span>
         </div>
+        {{!-- main section --}}
         <div class="nav-item-container">
             <h4 class="nav-item-header">Main</h4>
             <div class="nav-item">
@@ -22,22 +23,49 @@
                     <h3>Products</h3>
                 </a>
             </div>
-            <div class="nav-item">
-                <a class="nav-item_link" href="/product/create-product">
-                    <i class="fa-solid fa-plus"></i>
-                    <h3>Create Products</h3>
-                </a>
-            </div>
+            {{!-- this nav section for dashboard page --}}
+            {{#if globalData.role}}
+                {{#if (isAdmin globalData.role)}}
+                    <div class="nav-item">
+                        <a class="nav-item_link" href="/product/create-product">
+                            <i class="fa-solid fa-plus"></i>
+                            <h3>Create Products</h3>
+                        </a>
+                    </div>
+                {{/if}}
+            {{/if}}
+            {{!-- this nav section for the rest page --}}
+            {{#if username}}
+                {{#if (isAdmin username)}}
+                    <div class="nav-item">
+                        <a class="nav-item_link" href="/product/create-product">
+                            <i class="fa-solid fa-plus"></i>
+                            <h3>Create Products</h3>
+                        </a>
+                    </div>
+                {{/if}}
+            {{/if}}
+
             <div class="nav-item">
                 <a class="nav-item_link" href="">
-                    <i class="fa-solid fa-box"></i>
+                    <i class="fa-solid fa-list"></i>
                     <h3>Category</h3>
                 </a>
             </div>
             <div class="nav-item">
                 <a class="nav-item_link" href="/brand">
-                    <i class="fa-solid fa-box"></i>
-                    <h3>Brand</h3>
+                    <i class="fa-solid fa-tags"></i>
+                    <h3>Brands</h3>
+                </a>
+            </div>
+        </div>
+        {{!-- Admin section --}}
+        <div class="nav-item-container">
+            <h4 class="nav-item-header">Manager</h4>
+            <div class="nav-item">
+                <a class="nav-item_link" href="/staff/admin">
+                    <i class="fa-solid fa-user"></i>
+                    <h3>Admin</h3>
                 </a>
             </div>
         </div>
@@ -49,7 +77,7 @@
                     <h4 class="nav-item-header">Sales People</h4>
                     <div class="nav-item">
                         <a class="nav-item_link" href="/staff">
-                            <i class="fa-solid fa-box"></i>
+                            <i class="fa-solid fa-user"></i>
                             <h3>Employees</h3>
                         </a>
                     </div>
@@ -69,7 +97,7 @@
                     <h4 class="nav-item-header">Sales People</h4>
                     <div class="nav-item">
                         <a class="nav-item_link" href="/staff">
-                            <i class="fa-solid fa-box"></i>
+                            <i class="fa-solid fa-user"></i>
                             <h3>Employees</h3>
                         </a>
                     </div>
@@ -87,13 +115,13 @@
             <h4 class="nav-item-header">Sales</h4>
             <div class="nav-item">
                 <a class="nav-item_link" href="/order">
-                    <i class="fa-solid fa-plus"></i>
+                    <i class="fa-brands fa-first-order"></i>
                     <h3>Order</h3>
                 </a>
             </div>
             <div class="nav-item">
                 <a class="nav-item_link" href="/pos">
-                    <i class="fa-solid fa-box"></i>
+                    <i class="fa-solid fa-cash-register"></i>
                     <h3>POS</h3>
                 </a>
             </div>
@@ -103,13 +131,13 @@
             <h4 class="nav-item-header">Cusomer</h4>
             <div class="nav-item">
                 <a class="nav-item_link" href="/customer">
-                    <i class="fa-solid fa-box"></i>
+                    <i class="fa-regular fa-user"></i>
                     <h3>Customers</h3>
                 </a>
             </div>
             <div class="nav-item">
                 <a class="nav-item_link" href="/customer/history">
-                    <i class="fa-solid fa-box"></i>
+                    <i class="fa-solid fa-clock-rotate-left"></i>
                     <h3>History</h3>
                 </a>
             </div>
@@ -128,6 +156,8 @@
 
 <script>
     $(document).ready(function() {
+        $('.nav-item-header').attr('hidden', true)
+
         $('.navigation-container').mouseenter(function() {
             // Handle open the navigation
             $('.navigation-container').css('width', '260px');

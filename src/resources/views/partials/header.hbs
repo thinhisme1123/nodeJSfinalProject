@@ -39,9 +39,16 @@
                     {{/if}}
                 </div>
                 <div class="profile-body">
-                    <a href="/profile">
+                    {{#if username}}
+                    <a href="/profile/{{id}}">
                         <i class="fa-regular fa-user"></i>
                         My Profle</a>
+                    {{/if}}
+                    {{#if globalData.username}}
+                    <a href="/profile/{{globalData.id}}">
+                        <i class="fa-regular fa-user"></i>
+                        My Profle</a>
+                    {{/if}}
                     <a href="">
                         <i class="fa-solid fa-gear"></i>
                         Setting</a>

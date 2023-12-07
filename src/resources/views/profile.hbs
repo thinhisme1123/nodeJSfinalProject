@@ -7,25 +7,25 @@
             </div>
         </div>
         
-        <form action="/create-product" method="post">
+    <form action="/staff/edit/{{_id}}?_method=PUT" method="post" enctype="multipart/form-data">
         <div class="product-list-container">
             <div class="profile-background">
                 <div class="profile-img">
-                    <img src="/img/logoHPT.jpg" alt="">
+                    <img src="{{account.image}}" alt="">
                 </div>
                 <div class="profile-info">
-                    <h2>{{globalData.username}}</h2>
+                    <h2>{{account.username}}</h2>
                     <h6>Updates Your Photo and Personal Details</h6>
                 </div>
             </div>
             <div style="margin-left: 50px;" class="create-product-row row">
                 <div class="col create-product-item">
                     <h6>Name</h6>
-                    <input value="{{globalData.username}}" type="text" name="username">
+                    <input value="{{account.username}}" type="text" name="username">
                 </div>
                 <div class="col create-product-item">
                     <h6>Email</h6>
-                    <input value="{{globalData.email}}" type="text" name="email">
+                    <input value="{{account.email}}" type="text" name="email">
                 </div>
             </div>
             <div style="margin-left: 50px;" class="create-product-row row">
@@ -35,12 +35,14 @@
                         <i class="fas fa-cloud-upload-alt"></i>
                         Drag and drop a file to upload
                     </label>
-                    <input type="file" id="file-input" >
+                    <input type="file" class="custom-file-input" id="file-input" name="image">
+                    <img src="" id="preview-image" style="max-width: 30%; max-height:100%; margin-top: 10px;">
+
                 </div>
             </div>
             <div style="margin-left: 50px;" class="create-product-row row">
                 <div class="col create-product-item">
-                    <button class="create-submit-btn" type="submit">Submit</button>
+                    <button class="create-submit-btn" type="submit">Update</button>
                     <a class="create-cancel-btn" href="/change-password">Change Password</a>    
                     <a class="create-cancel-btn" href="/product">Cancel</a>
                 </div>
@@ -50,3 +52,30 @@
     </div>
     
 </div>
+<script>
+      console.log($(".custom-file-input").length);
+   $(".custom-file-input").on("change", function () {
+    var fileName = $(this).val().split("\\").pop();
+    console.log(fileName); // Corrected variable name
+    $(this)
+        .siblings(".file-label")
+        .addClass("selected")
+        .html(fileName);
+
+    // Display the image preview
+    const fileInput = this;
+    const file = fileInput.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const previewImage = $("#preview-image");
+            previewImage.attr("src", e.target.result);
+            previewImage.show();
+        };
+
+        reader.readAsDataURL(file);
+    }
+    });
+</script>
