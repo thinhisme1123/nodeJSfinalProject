@@ -191,6 +191,37 @@ class StaffControllers {
           });
     }
 
+     // [POST] /edit staff
+     editProfile(req, res) {
+        const staffID = req.params.id;
+        const uploadedImage = req.file;
+        const image = req.file ? `/uploads/staffs/${uploadedImage.filename}` : null;
+        //dùng toán tử rest để lưu trữ giá trị cũ và giá trị mới
+        const updateFields = { ...req.body, image };
+
+
+        Account.findOneAndUpdate(
+          { _id: staffID },
+          { $set: updateFields },
+          { new: true, lean: true } // This will return the updated document
+        )
+          .then(updatedStaff => {
+            if (!updatedStaff) {
+                console.log(updatedStaff)
+              return res.status(404).json({ error: 'Staff not found' });
+            }
+            else {
+                res.redirect(`/profile/${staffID}`)
+            }
+            // Successfully updated, send the updated product in the response
+          })
+          .catch(error => {
+            console.error('Error updating staff:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+    }
+
+
     resendEmailStaff(req, res) {
         const email = req.params.email
         const username = req.body.username

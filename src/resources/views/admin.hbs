@@ -105,10 +105,10 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">No staff found</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">No admin found</h5>
                     </div>
                     <div class="modal-body">
-                        Please check if staff's name is valid. Then search again!
+                        Please check if admin's name is valid. Then search again!
                     </div>
                    <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -228,31 +228,22 @@
                         $("#productTable tbody tr").remove()
                         
                         data.forEach(function (result) {
-                            if(result.role === 'staff') {
+                            if(result.role === 'admin') {
                                 const newRow = `
                                     <tr>
                                         <th scope="row"><input class="product-checkbox-input" type="checkbox" name="staffs"></th>
                                         <td><img class="staff-img" src="${result.image}" alt=""><span style="margin-left:10px;">${result.username}</span></td>
                                         <td>${result.email}</td>
                                         <td>${result.role}</td>
-                                        
                                         <td class="product-action">
-
-                                            <a class="product-list-item_info_link" href="/staff/edit/{{_id}}"><i class="fa-regular fa-eye"></i></a>
+                                            <a class="product-list-item_info_link" href="/staff/edit/${result._id}"><i class="fa-regular fa-eye"></i></a>
                                             {{#if (isSent globalData.permission)}}
                                                 <a data-email="${result.email}" data-username="${result.username}" class="staff-send-email_info_link ml-2" href="/staff/resend/${result.email}"><i class="fa-solid fa-envelope-circle-check"></i></a>
                                             {{/if}}
-                                            {{#if (isAdmin globalData.role)}}
-                                                {{#if (isBlocked blocked)}}
-                                                    <a class="product-list-item_info_link block-staff_link blocked ml-2" data-blocked="${result.blocked}" data-id="${result._id}" href="/staff/block/${result._id}"><i class="fa-solid fa-lock"></i></a>
-                                                {{else}}
-                                                    <a class="product-list-item_info_link block-staff_link ml-2" data-blocked="${result.blocked}" data-id="${result._id}" href="/staff/block/${result._id}"><i class="fa-solid fa-lock-open"></i></a>
-                                                {{/if}}
-                                                <a class="product-list-item_info_link ml-2" href="/staff/edit/${result._id}"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                <a data-staffname="${result.username}" data-id="${result._id}" class="delete-staff-link product-list-item_info_link ml-2" href="/staff/delete/${result._id}"><i class="fa-solid fa-trash"></i></a>
-                                            {{/if}}
+                                            <a class="product-list-item_info_link ml-2" href="/staff/edit/${result._id}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a data-staffname="${result.username}" data-id="${result._id}" class="delete-staff-link product-list-item_info_link ml-2" href="/staff/delete/${result._id}"><i class="fa-solid fa-trash"></i></a>
                                         </td>
-                                    </tr>`;
+                                </tr>`;
                                 tableBody.append(newRow);
                             }
 
