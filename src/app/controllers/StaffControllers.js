@@ -71,7 +71,8 @@ class StaffControllers {
                             role: role,
                             image: imageUrl,
                             change:change,
-                            verified:verified
+                            verified:verified,
+                            blocked:blocked
                         });
                         await us.save();
                         // Generate a token with a 1-minute expiration time
