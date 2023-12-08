@@ -5,7 +5,7 @@ const checkBlockedAccount = require('../app/middlewares/checkBlockedAccount')
 const checkRoleAccount = require('../app/middlewares/checkRoleAccount')
 
 //lỗi lạ POS trong profile viết hoa nhưng trong code viết thường
-const posControllers = require('../app/controllers/PosControllers');
+const posControllers = require('../app/controllers/SaleControllers');
 
 router.post('/search',getUsername, posControllers.searchProduct);
 router.post('/pos-adding/:id',getUsername, posControllers.addPOSProductCart);
