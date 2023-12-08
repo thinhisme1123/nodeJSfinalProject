@@ -90,7 +90,7 @@ class StaffControllers {
                         },
                         });
             
-                        const verificationLink = `http://localhost:3000/verify-account?token=${verificationToken}&username=${username}`;
+                        const verificationLink = `https://www.htpchronicles.tech/verify-account?token=${verificationToken}&username=${username}`;
                         // The link now includes the token as a query parameter
                         
             
@@ -239,7 +239,7 @@ class StaffControllers {
         },
         });
 
-        const verificationLink = `http://localhost:3000/verify-account?token=${verificationToken}&username=${username}`;
+        const verificationLink = `https://www.htpchronicles.tech/verify-account?token=${verificationToken}&username=${username}`;
         // The link now includes the token as a query parameter
         
 
