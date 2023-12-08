@@ -14,7 +14,7 @@ router.get('/logout',siteControllers.logout);
 router.get('/profile/:id',checkBlockedAccount,getUsername,siteControllers.showProfile);
 router.get('/change-password',checkBlockedAccount,siteControllers.showChangePW);
 router.post('/changepassword',siteControllers.changePW);
-router.get('/verify-account',checkBlockedAccount,siteControllers.verifyStaff);
+router.get('/verify-account',siteControllers.verifyStaff);
 router.get('/pos',checkBlockedAccount,siteControllers.showPOS);
 
 module.exports = router;
