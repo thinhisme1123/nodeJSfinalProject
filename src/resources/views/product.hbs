@@ -229,6 +229,9 @@
                             <td><img class="product-img" src="${result.image}" alt=""><span style="margin-left:10px;">${result.productName}</span></td>
                             <td>${result.category}</td>
                             <td>${result.brand}</td>
+                            {{#if (isAdmin globalData.role)}}
+                                <td>${result.importPrice}</td>
+                            {{/if}}
                             <td>${result.price}</td>
                             <td>${result.quantity}</td>
                             <td>${result.createdBy}</td>
