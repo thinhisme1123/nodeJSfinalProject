@@ -69,7 +69,28 @@ class SiteControllers {
     }
     // [GET] /login
     showLogin(req,res) {
-        res.render("login",{title: "Login Page"})
+
+        res.render("login",{title: "Login Page", favicon:`<link type="image/png" sizes="16x16" rel="icon" href=".../icons8-login-16.png">
+        <link type="image/png" sizes="32x32" rel="icon" href=".../icons8-login-32.png">
+        <link type="image/png" sizes="96x96" rel="icon" href=".../icons8-login-96.png">
+        <link rel="icon" type="image/png" sizes="72x72" href=".../icons8-login-72.png">
+        <link rel="icon" type="image/png" sizes="96x96" href=".../icons8-login-96.png">
+        <link rel="icon" type="image/png" sizes="144x144" href=".../icons8-login-144.png">
+        <link rel="icon" type="image/png" sizes="192x192" href=".../icons8-login-192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href=".../icons8-login-512.png">
+        <link rel="apple-touch-icon" type="image/png" sizes="57x57" href=".../icons8-login-57.png">
+        <link rel="apple-touch-icon" type="image/png" sizes="60x60" href=".../icons8-login-60.png">
+        <link rel="apple-touch-icon" type="image/png" sizes="72x72" href=".../icons8-login-72.png">
+        <link rel="apple-touch-icon" type="image/png" sizes="76x76" href=".../icons8-login-76.png">
+        <link rel="apple-touch-icon" type="image/png" sizes="114x114" href=".../icons8-login-114.png">
+        <link rel="apple-touch-icon" type="image/png" sizes="120x120" href=".../icons8-login-120.png">
+        <link rel="apple-touch-icon" type="image/png" sizes="144x144" href=".../icons8-login-144.png">
+        <link rel="apple-touch-icon" type="image/png" sizes="152x152" href=".../icons8-login-152.png">
+        <link rel="apple-touch-icon" type="image/png" sizes="180x180" href=".../icons8-login-180.png">
+        <link color="#26E07F" rel="mask-icon" href=".../icons8-login-150.svg">
+        <meta name="msapplication-square70x70logo" content=".../icons8-login-70.png">
+        <meta name="msapplication-TileColor" content="#C0FFEE">
+        <meta name="application-name" content="Beautiful application name">`})
     }
     
     // [POST] /login
