@@ -56,7 +56,8 @@ class SiteControllers {
                     totalSaleAmount: totalSaleAmount,
                     brandAmount: brandAmount,
                     totalEmployees: totalEmployees,
-                    blocked: req.session.user.blocked
+                    blocked: req.session.user.blocked,
+                    
                 });
             } else {
                 res.redirect('/login');
